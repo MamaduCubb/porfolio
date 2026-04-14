@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blog — El Hadji Mamadou THIOUBE</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    /* ===== BASE ===== */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --blue-night:    #0D1B2A;
+      --blue-marine:   #112236;
+      --blue-electric: #4A90D9;
+      --blue-sky:      #7EC8E3;
+      --white-off:     #E8EEF4;
+      --gray-blue:     #7A9BBF;
+      --black-deep:    #060E18;
+      --glow: 0 0 18px rgba(74,144,217,0.45);
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--blue-night); color: var(--white-off); }
+    a { text-decoration: none; color: inherit; }
+
+    /* ===== NAVBAR ===== */
+    nav {
+      position: sticky; top: 0; z-index: 500;
+      background: rgba(13,27,42,0.97);
+      box-shadow: 0 2px 24px rgba(0,0,0,0.4);
+      padding: 14px 40px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: var(--blue-electric); }
+    .nav-right { display: flex; gap: 28px; align-items: center; }
+    .nav-right a { font-size: 0.9rem; color: var(--gray-blue); transition: color 0.3s; }
+    .nav-right a:hover { color: var(--blue-sky); }
+    .nav-right a.active { color: var(--blue-sky); }
+    .btn-back {
+      padding: 8px 20px; border-radius: 50px;
+      border: 1.5px solid var(--blue-electric); color: var(--blue-sky);
+      font-size: 0.85rem; font-weight: 500; transition: all 0.3s;
+    }
+    .btn-back:hover { background: rgba(74,144,217,0.12); box-shadow: var(--glow); }
+
+    /* ===== HERO BLOG ===== */
+    .blog-hero {
+      background: var(--blue-marine);
+      padding: 64px 40px 48px;
+      text-align: center;
+      border-bottom: 1px solid rgba(74,144,217,0.15);
+    }
+    .blog-hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2rem,4vw,3rem); color: var(--white-off); margin-bottom: 12px; }
+    .blog-hero p { color: var(--gray-blue); font-size: 1rem; max-width: 540px; margin: 0 auto 28px; }
+
+    /* Search bar */
+    .search-wrap { position: relative; max-width: 420px; margin: 0 auto; }
+    .search-wrap input {
+      width: 100%; padding: 13px 46px 13px 18px; border-radius: 50px;
+      border: 1.5px solid rgba(74,144,217,0.3);
+      background: rgba(255,255,255,0.05); color: var(--white-off);
+      font-family: 'DM Sans', sans-serif; font-size: 0.9rem;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+    .search-wrap input:focus { outline: none; border-color: var(--blue-electric); box-shadow: var(--glow); }
+    .search-wrap input::placeholder { color: var(--gray-blue); }
+    .search-wrap .search-icon { position: absolute; right: 16px; top: 50%; transform: translateY(-50%); color: var(--gray-blue); pointer-events: none; }
+
+    /* Category tabs */
+    .cat-tabs { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-top: 24px; }
+    .cat-tab {
+      padding: 6px 18px; border-radius: 50px; font-size: 0.82rem; font-weight: 500;
+      border: 1.5px solid rgba(74,144,217,0.25); color: var(--gray-blue);
+      cursor: pointer; transition: all 0.3s; background: transparent;
+    }
+    .cat-tab:hover { border-color: var(--blue-electric); color: var(--blue-sky); }
+    .cat-tab.active { background: var(--blue-electric); border-color: var(--blue-electric); color: #fff; }
+
+    /* ===== MAIN LAYOUT ===== */
+    .blog-main { max-width: 1200px; margin: 0 auto; padding: 60px 40px; }
+
+    /* Stats */
+    .blog-stats { display: flex; gap: 32px; margin-bottom: 40px; flex-wrap: wrap; }
+    .stat-pill {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 0.85rem; color: var(--gray-blue);
+    }
+    .stat-pill strong { color: var(--blue-sky); font-size: 1rem; }
+
+    /* ===== ARTICLE CARDS ===== */
+    .articles-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 28px; }
+
+    .article-card {
+      background: var(--blue-marine); border-radius: 18px; overflow: hidden;
+      border: 1px solid rgba(74,144,217,0.12);
+      transition: box-shadow 0.3s, border-color 0.3s, transform 0.3s;
+      cursor: pointer; display: flex; flex-direction: column;
+    }
+    .article-card:hover { box-shadow: var(--glow); border-color: var(--blue-electric); transform: translateY(-5px); }
+
+    .article-cover {
+      height: 160px; display: flex; align-items: flex-end; padding: 18px;
+      position: relative; overflow: hidden;
+    }
+    .article-cover::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 30%, rgba(0,0,0,0.5)); }
+    .article-cover .cover-emoji { font-size: 2.8rem; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-60%); z-index: 1; opacity: 0.85; }
+
+    .article-cat-badge {
+      position: relative; z-index: 2;
+      font-size: 0.7rem; font-weight: 600; padding: 4px 12px; border-radius: 50px;
+      font-family: 'DM Mono', monospace; letter-spacing: 0.5px;
+    }
+
+    .article-body { padding: 22px 24px; flex: 1; display: flex; flex-direction: column; }
+    .article-body h2 { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--white-off); margin-bottom: 10px; line-height: 1.5; }
+    .article-body p { font-size: 0.87rem; color: var(--gray-blue); line-height: 1.7; margin-bottom: 16px; flex: 1; }
+    .article-meta { display: flex; align-items: center; justify-content: space-between; margin-top: auto; }
+    .article-date { font-size: 0.75rem; color: var(--gray-blue); font-family: 'DM Mono', monospace; }
+    .article-read { font-size: 0.75rem; color: var(--blue-electric); font-family: 'DM Mono', monospace; }
+    .article-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px; }
+    .art-tag { font-size: 0.7rem; padding: 2px 9px; border-radius: 20px; background: rgba(74,144,217,0.12); color: var(--blue-sky); }
+
+    /* Empty state */
+    .empty-state { text-align: center; padding: 80px 20px; color: var(--gray-blue); }
+    .empty-state .e-icon { font-size: 3rem; margin-bottom: 16px; }
+    .empty-state p { font-size: 1rem; }
+
+    /* ===== ARTICLE VIEW (modal overlay) ===== */
+    .article-overlay {
+      position: fixed; inset: 0; z-index: 900;
+      background: rgba(6,14,24,0.95);
+      display: none; overflow-y: auto;
+    }
+    .article-overlay.open { display: block; }
+    .article-view {
+      max-width: 780px; margin: 0 auto; padding: 60px 40px 80px;
+    }
+    .article-view-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 0.88rem; color: var(--gray-blue);
+      margin-bottom: 36px; cursor: pointer; transition: color 0.3s;
+    }
+    .article-view-back:hover { color: var(--blue-sky); }
+    .article-view-header { margin-bottom: 36px; }
+    .article-view-cat { display: inline-block; font-size: 0.75rem; font-weight: 600; padding: 5px 14px; border-radius: 50px; margin-bottom: 16px; font-family: 'DM Mono', monospace; }
+    .article-view h1 { font-family: 'Playfair Display', serif; font-size: clamp(1.6rem,3.5vw,2.4rem); color: var(--white-off); margin-bottom: 16px; line-height: 1.3; }
+    .article-view-meta { display: flex; gap: 20px; color: var(--gray-blue); font-size: 0.82rem; font-family: 'DM Mono', monospace; flex-wrap: wrap; }
+    .article-view-divider { height: 1px; background: rgba(74,144,217,0.2); margin: 28px 0; }
+    .article-view-content { color: var(--gray-blue); font-size: 1rem; line-height: 1.9; }
+    .article-view-content h2 { font-family: 'Playfair Display', serif; color: var(--blue-sky); font-size: 1.4rem; margin: 32px 0 14px; }
+    .article-view-content h3 { color: var(--white-off); font-size: 1.1rem; margin: 22px 0 10px; font-family: 'DM Sans', sans-serif; font-weight: 600; }
+    .article-view-content p { margin-bottom: 16px; }
+    .article-view-content ul, .article-view-content ol { padding-left: 22px; margin-bottom: 16px; }
+    .article-view-content li { margin-bottom: 8px; }
+    .article-view-content strong { color: var(--white-off); }
+    .article-view-content code { font-family: 'DM Mono', monospace; background: rgba(74,144,217,0.12); padding: 2px 7px; border-radius: 5px; font-size: 0.88rem; color: var(--blue-sky); }
+    .article-view-content blockquote { border-left: 3px solid var(--blue-electric); padding-left: 18px; margin: 20px 0; font-style: italic; color: var(--gray-blue); }
+
+    /* ===== ADMIN PANEL ===== */
+    /* Hidden trigger — bottom right corner */
+    #admin-trigger {
+      position: fixed; bottom: 96px; right: 36px;
+      width: 44px; height: 44px; border-radius: 50%;
+      background: rgba(74,144,217,0.12);
+      border: 1.5px solid rgba(74,144,217,0.3);
+      color: var(--gray-blue); font-size: 1rem;
+      cursor: pointer; z-index: 800;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.3s;
+    }
+    #admin-trigger:hover { background: rgba(74,144,217,0.25); color: var(--blue-sky); box-shadow: var(--glow); }
+
+    .admin-overlay {
+      position: fixed; inset: 0; z-index: 950;
+      background: rgba(6,14,24,0.97);
+      display: none; overflow-y: auto;
+    }
+    .admin-overlay.open { display: block; }
+    .admin-panel {
+      max-width: 860px; margin: 0 auto; padding: 50px 40px 80px;
+    }
+    .admin-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 32px; }
+    .admin-header h2 { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--white-off); }
+    .admin-close {
+      width: 40px; height: 40px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,0.15);
+      background: transparent; color: var(--gray-blue); font-size: 1.2rem; cursor: pointer;
+      transition: all 0.3s;
+    }
+    .admin-close:hover { background: rgba(255,255,255,0.08); color: var(--white-off); }
+
+    /* Pin protection */
+    .pin-screen { text-align: center; padding: 60px 20px; }
+    .pin-screen h3 { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--white-off); margin-bottom: 8px; }
+    .pin-screen p { color: var(--gray-blue); font-size: 0.9rem; margin-bottom: 28px; }
+    .pin-input-wrap { display: flex; gap: 10px; justify-content: center; margin-bottom: 24px; }
+    .pin-digit {
+      width: 52px; height: 60px; border-radius: 12px; text-align: center;
+      font-size: 1.6rem; font-weight: 700; font-family: 'DM Mono', monospace;
+      border: 2px solid rgba(74,144,217,0.3); background: var(--blue-marine);
+      color: var(--white-off); transition: border-color 0.3s;
+    }
+    .pin-digit:focus { outline: none; border-color: var(--blue-electric); }
+    .pin-error { color: #ff6b6b; font-size: 0.85rem; min-height: 20px; }
+
+    /* Article editor */
+    .editor-section { display: none; }
+    .editor-section.visible { display: block; }
+
+    /* Articles management */
+    .admin-articles-list { margin-bottom: 40px; }
+    .admin-article-item {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 18px; border-radius: 12px; background: var(--blue-marine);
+      margin-bottom: 10px; border: 1px solid rgba(74,144,217,0.1);
+      transition: border-color 0.3s;
+    }
+    .admin-article-item:hover { border-color: rgba(74,144,217,0.3); }
+    .admin-article-item .ai-title { font-size: 0.9rem; color: var(--white-off); }
+    .admin-article-item .ai-meta { font-size: 0.75rem; color: var(--gray-blue); margin-top: 3px; }
+    .ai-actions { display: flex; gap: 8px; }
+    .ai-btn {
+      padding: 6px 14px; border-radius: 8px; font-size: 0.78rem; cursor: pointer;
+      border: 1px solid; transition: all 0.2s; font-family: 'DM Sans', sans-serif;
+    }
+    .ai-btn.edit-btn { border-color: var(--blue-electric); color: var(--blue-sky); background: rgba(74,144,217,0.08); }
+    .ai-btn.edit-btn:hover { background: rgba(74,144,217,0.2); }
+    .ai-btn.del-btn { border-color: rgba(255,100,100,0.4); color: #ff8888; background: rgba(255,100,100,0.06); }
+    .ai-btn.del-btn:hover { background: rgba(255,100,100,0.15); }
+
+    .btn-new-article {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 12px 28px; border-radius: 50px;
+      background: linear-gradient(135deg, var(--blue-electric), #2a6fbd);
+      color: #fff; font-size: 0.92rem; font-weight: 600;
+      border: none; cursor: pointer; margin-bottom: 32px;
+      box-shadow: var(--glow); transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .btn-new-article:hover { transform: translateY(-2px); }
+
+    /* Form */
+    .form-group { margin-bottom: 22px; }
+    .form-group label { display: block; font-size: 0.85rem; color: var(--gray-blue); font-weight: 500; margin-bottom: 8px; }
+    .form-group input, .form-group select, .form-group textarea {
+      width: 100%; padding: 12px 16px; border-radius: 10px;
+      border: 1.5px solid rgba(74,144,217,0.3);
+      background: var(--blue-marine); color: var(--white-off);
+      font-family: 'DM Sans', sans-serif; font-size: 0.9rem;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+      outline: none; border-color: var(--blue-electric); box-shadow: var(--glow);
+    }
+    .form-group select option { background: var(--blue-marine); }
+    .form-group textarea { min-height: 360px; resize: vertical; font-size: 0.9rem; line-height: 1.7; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    .form-hint { font-size: 0.77rem; color: var(--gray-blue); margin-top: 6px; opacity: 0.8; }
+    .form-actions { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 10px; }
+    .btn-save {
+      padding: 12px 30px; border-radius: 50px;
+      background: linear-gradient(135deg, var(--blue-electric), #2a6fbd);
+      color: #fff; font-size: 0.92rem; font-weight: 600;
+      border: none; cursor: pointer; box-shadow: var(--glow); transition: transform 0.3s;
+    }
+    .btn-save:hover { transform: translateY(-2px); }
+    .btn-cancel {
+      padding: 12px 30px; border-radius: 50px;
+      border: 1.5px solid rgba(255,255,255,0.15); color: var(--gray-blue);
+      font-size: 0.92rem; background: transparent; cursor: pointer; transition: all 0.3s;
+    }
+    .btn-cancel:hover { background: rgba(255,255,255,0.06); color: var(--white-off); }
+
+    /* Markdown tip panel */
+    .md-tips {
+      background: rgba(74,144,217,0.06); border: 1px solid rgba(74,144,217,0.15);
+      border-radius: 10px; padding: 14px 18px; margin-bottom: 16px;
+    }
+    .md-tips h4 { font-size: 0.82rem; color: var(--blue-sky); margin-bottom: 8px; }
+    .md-tips ul { list-style: none; display: flex; flex-wrap: wrap; gap: 6px 20px; }
+    .md-tips li { font-size: 0.77rem; color: var(--gray-blue); font-family: 'DM Mono', monospace; }
+    .md-tips li strong { color: var(--blue-sky); }
+
+    /* Color picker for cover */
+    .color-options { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 8px; }
+    .color-opt {
+      width: 36px; height: 36px; border-radius: 8px; cursor: pointer;
+      border: 3px solid transparent; transition: border-color 0.2s, transform 0.2s;
+    }
+    .color-opt.selected { border-color: var(--white-off); transform: scale(1.15); }
+
+    /* Emoji picker */
+    .emoji-opts { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 8px; }
+    .emoji-opt {
+      width: 40px; height: 40px; border-radius: 8px; border: 1.5px solid rgba(74,144,217,0.2);
+      background: rgba(74,144,217,0.07); font-size: 1.3rem;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: all 0.2s;
+    }
+    .emoji-opt.selected, .emoji-opt:hover { border-color: var(--blue-electric); background: rgba(74,144,217,0.2); }
+
+    /* Progress bar */
+    #progress-bar {
+      position: fixed; top: 0; left: 0; height: 3px; width: 0%;
+      background: linear-gradient(90deg, var(--blue-electric), var(--blue-sky));
+      z-index: 9999; transition: width 0.1s linear;
+    }
+
+    /* Scroll top */
+    #scroll-top {
+      position: fixed; bottom: 36px; right: 36px;
+      width: 44px; height: 44px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--blue-electric), #2a6fbd);
+      border: none; color: #fff; font-size: 1.2rem;
+      cursor: pointer; box-shadow: var(--glow); z-index: 799;
+      opacity: 0; pointer-events: none; transition: opacity 0.4s, transform 0.3s;
+      display: flex; align-items: center; justify-content: center;
+    }
+    #scroll-top.visible { opacity: 1; pointer-events: all; }
+    #scroll-top:hover { transform: translateY(-4px); }
+
+    /* Toast notification */
+    .toast {
+      position: fixed; bottom: 36px; left: 50%; transform: translateX(-50%) translateY(20px);
+      background: var(--blue-marine); border: 1px solid var(--blue-electric);
+      color: var(--white-off); padding: 12px 24px; border-radius: 50px;
+      font-size: 0.88rem; z-index: 9999;
+      opacity: 0; transition: opacity 0.4s, transform 0.4s; pointer-events: none;
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    /* RESPONSIVE */
+    @media (max-width: 700px) {
+      .blog-hero, .blog-main { padding-left: 20px; padding-right: 20px; }
+      nav { padding: 12px 20px; }
+      .articles-grid { grid-template-columns: 1fr; }
+      .article-view, .admin-panel { padding: 40px 20px 60px; }
+      .form-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<!-- NAVBAR -->
+<nav>
+  <div class="nav-logo">EMT · Blog</div>
+  <div class="nav-right">
+    <a href="index.html" class="btn-back">← Portfolio</a>
+    <a href="#" class="active">Articles</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="blog-hero">
+  <h1>Blog & Articles</h1>
+  <p>Réflexions, tutoriels et ressources sur l'informatique, la bureautique et la formation professionnelle.</p>
+  <div class="search-wrap">
+    <input type="text" id="search-input" placeholder="Rechercher un article..." oninput="filterArticles()" />
+    <span class="search-icon">🔍</span>
+  </div>
+  <div class="cat-tabs" id="cat-tabs">
+    <button class="cat-tab active" onclick="setCategory('Tous', this)">Tous</button>
+    <button class="cat-tab" onclick="setCategory('Bureautique', this)">📄 Bureautique</button>
+    <button class="cat-tab" onclick="setCategory('IA & Numérique', this)">🤖 IA & Numérique</button>
+    <button class="cat-tab" onclick="setCategory('Pédagogie', this)">🎓 Pédagogie</button>
+    <button class="cat-tab" onclick="setCategory('Bases de données', this)">🗄️ Bases de données</button>
+    <button class="cat-tab" onclick="setCategory('Formation', this)">💡 Formation</button>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="blog-main">
+  <div class="blog-stats" id="blog-stats"></div>
+  <div class="articles-grid" id="articles-grid"></div>
+</div>
+
+<!-- ARTICLE VIEW OVERLAY -->
+<div class="article-overlay" id="article-overlay">
+  <div class="article-view">
+    <div class="article-view-back" onclick="closeArticle()">← Retour aux articles</div>
+    <div class="article-view-header">
+      <span class="article-view-cat" id="av-cat"></span>
+      <h1 id="av-title"></h1>
+      <div class="article-view-meta" id="av-meta"></div>
+    </div>
+    <div class="article-view-divider"></div>
+    <div class="article-view-content" id="av-content"></div>
+  </div>
+</div>
+
+<!-- ADMIN TRIGGER (discret) -->
+<button id="admin-trigger" title="Administration" onclick="openAdmin()">✏️</button>
+
+<!-- ADMIN OVERLAY -->
+<div class="admin-overlay" id="admin-overlay">
+  <div class="admin-panel">
+    <div class="admin-header">
+      <h2>✏️ Administration du Blog</h2>
+      <button class="admin-close" onclick="closeAdmin()">✕</button>
+    </div>
+
+    <!-- PIN screen -->
+    <div class="pin-screen" id="pin-screen">
+      <div style="font-size:2.5rem;margin-bottom:14px;">🔐</div>
+      <h3>Accès réservé</h3>
+      <p>Entrez votre code PIN à 4 chiffres pour accéder à l'éditeur.</p>
+      <div class="pin-input-wrap">
+        <input class="pin-digit" id="pin1" type="password" maxlength="1" inputmode="numeric" oninput="pinNext(this,'pin2')" />
+        <input class="pin-digit" id="pin2" type="password" maxlength="1" inputmode="numeric" oninput="pinNext(this,'pin3')" />
+        <input class="pin-digit" id="pin3" type="password" maxlength="1" inputmode="numeric" oninput="pinNext(this,'pin4')" />
+        <input class="pin-digit" id="pin4" type="password" maxlength="1" inputmode="numeric" oninput="checkPin()" />
+      </div>
+      <div class="pin-error" id="pin-error"></div>
+      <p style="font-size:0.78rem;color:var(--gray-blue);margin-top:18px;">Code par défaut : <strong style="color:var(--blue-sky)">2025</strong> — vous pouvez le changer dans les paramètres.</p>
+    </div>
+
+    <!-- Editor (unlocked) -->
+    <div class="editor-section" id="editor-section">
+
+      <button class="btn-new-article" onclick="showEditor()">+ Nouvel article</button>
+
+      <!-- Articles list -->
+      <div id="admin-articles-list"></div>
+
+      <!-- Editor form -->
+      <div id="article-form" style="display:none;">
+        <h3 style="font-family:'Playfair Display',serif;color:var(--white-off);margin-bottom:24px;font-size:1.4rem;" id="form-title-label">Nouvel article</h3>
+
+        <div class="form-group">
+          <label>Titre de l'article *</label>
+          <input type="text" id="f-title" placeholder="Ex : Les 10 fonctions Excel indispensables pour enseignants" />
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Catégorie *</label>
+            <select id="f-cat">
+              <option value="Bureautique">📄 Bureautique</option>
+              <option value="IA & Numérique">🤖 IA & Numérique</option>
+              <option value="Pédagogie">🎓 Pédagogie</option>
+              <option value="Bases de données">🗄️ Bases de données</option>
+              <option value="Formation">💡 Formation</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Temps de lecture estimé</label>
+            <input type="text" id="f-readtime" placeholder="Ex : 5 min" value="5 min" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Résumé (affiché sur la carte) *</label>
+          <input type="text" id="f-excerpt" placeholder="Une phrase courte décrivant l'article..." />
+        </div>
+
+        <div class="form-group">
+          <label>Tags (séparés par des virgules)</label>
+          <input type="text" id="f-tags" placeholder="Ex : Excel, Tableau croisé, Formation" />
+        </div>
+
+        <div class="form-group">
+          <label>Icône de couverture</label>
+          <div class="emoji-opts" id="emoji-picker">
+            <div class="emoji-opt selected" data-emoji="📄" onclick="selectEmoji(this)">📄</div>
+            <div class="emoji-opt" data-emoji="💻" onclick="selectEmoji(this)">💻</div>
+            <div class="emoji-opt" data-emoji="🤖" onclick="selectEmoji(this)">🤖</div>
+            <div class="emoji-opt" data-emoji="📊" onclick="selectEmoji(this)">📊</div>
+            <div class="emoji-opt" data-emoji="🎓" onclick="selectEmoji(this)">🎓</div>
+            <div class="emoji-opt" data-emoji="🗄️" onclick="selectEmoji(this)">🗄️</div>
+            <div class="emoji-opt" data-emoji="🌐" onclick="selectEmoji(this)">🌐</div>
+            <div class="emoji-opt" data-emoji="💡" onclick="selectEmoji(this)">💡</div>
+            <div class="emoji-opt" data-emoji="📈" onclick="selectEmoji(this)">📈</div>
+            <div class="emoji-opt" data-emoji="🔗" onclick="selectEmoji(this)">🔗</div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Couleur de couverture</label>
+          <div class="color-options" id="color-picker">
+            <div class="color-opt selected" data-color="#1a3a5c" style="background:#1a3a5c" onclick="selectColor(this)"></div>
+            <div class="color-opt" data-color="#0a2a1a" style="background:#0a2a1a" onclick="selectColor(this)"></div>
+            <div class="color-opt" data-color="#2a1a3c" style="background:#2a1a3c" onclick="selectColor(this)"></div>
+            <div class="color-opt" data-color="#3a1a1a" style="background:#3a1a1a" onclick="selectColor(this)"></div>
+            <div class="color-opt" data-color="#1a2a3a" style="background:#1a2a3a" onclick="selectColor(this)"></div>
+            <div class="color-opt" data-color="#0e2a35" style="background:#0e2a35" onclick="selectColor(this)"></div>
+            <div class="color-opt" data-color="#2a2a0a" style="background:#2a2a0a" onclick="selectColor(this)"></div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Contenu de l'article *</label>
+          <div class="md-tips">
+            <h4>✍️ Guide de mise en forme rapide</h4>
+            <ul>
+              <li><strong>## Titre</strong> → Grand titre de section</li>
+              <li><strong>### Sous-titre</strong> → Sous-section</li>
+              <li><strong>**texte**</strong> → Texte en gras</li>
+              <li><strong>- élément</strong> → Liste à puce</li>
+              <li><strong>> texte</strong> → Citation en retrait</li>
+              <li><strong>`code`</strong> → Texte de code</li>
+            </ul>
+          </div>
+          <textarea id="f-content" placeholder="Rédigez votre article ici...&#10;&#10;## Introduction&#10;&#10;Commencez par introduire votre sujet...&#10;&#10;## Développement&#10;&#10;Votre contenu principal..."></textarea>
+          <div class="form-hint">Utilisez les balises ci-dessus pour structurer et mettre en forme votre article.</div>
+        </div>
+
+        <div class="form-actions">
+          <button class="btn-save" onclick="saveArticle()">💾 Publier l'article</button>
+          <button class="btn-cancel" onclick="cancelEdit()">Annuler</button>
+        </div>
+      </div>
+
+      <!-- Settings -->
+      <div style="margin-top:50px;padding-top:30px;border-top:1px solid rgba(74,144,217,0.15);">
+        <h3 style="font-size:1rem;color:var(--gray-blue);margin-bottom:16px;">⚙️ Paramètres</h3>
+        <div style="display:flex;gap:14px;align-items:center;flex-wrap:wrap;">
+          <div class="form-group" style="margin:0;flex:1;min-width:160px;">
+            <label style="font-size:0.8rem;">Changer le code PIN</label>
+            <input type="password" id="new-pin" placeholder="Nouveau code PIN (4 chiffres)" maxlength="4" inputmode="numeric" style="margin-top:6px;" />
+          </div>
+          <button class="btn-save" style="margin-top:26px;padding:10px 22px;font-size:0.85rem;" onclick="changePin()">Modifier</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Scroll top -->
+<button id="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ─── SAMPLE ARTICLES (données initiales) ─────────────────────────────────────
+const SAMPLE_ARTICLES = [
+  {
+    id: 's1',
+    title: 'Les 10 fonctions Excel indispensables pour les enseignants',
+    category: 'Bureautique',
+    excerpt: 'Maîtrisez ces formules clés pour créer des tableaux de notes, de suivi et d\'analyse en quelques minutes.',
+    content: `## Introduction
+
+Excel est l'un des outils bureautiques les plus puissants pour les enseignants et les formateurs. Que ce soit pour gérer les notes, créer des bulletins ou suivre la progression des apprenants, quelques fonctions bien maîtrisées font toute la différence.
+
+Dans cet article, je vous présente les **10 fonctions que j'utilise et enseigne le plus souvent**, accompagnées d'exemples pratiques tirés du contexte scolaire et professionnel.
+
+## 1. MOYENNE — Calculer une note globale
+
+La fonction MOYENNE est incontournable pour tout enseignant.
+
+\`=MOYENNE(B2:B20)\`
+
+Elle calcule la moyenne arithmétique d'une plage de cellules. Pour pondérer les matières, utilisez MOYENNE.PONDÉRÉE.
+
+## 2. NB.SI — Compter les élèves selon un critère
+
+\`=NB.SI(C2:C30;">=10")\`
+
+Cette formule compte le nombre d'élèves ayant obtenu **10 ou plus**. Très utile pour les statistiques de classe.
+
+## 3. SI — Mentions automatiques
+
+\`=SI(D2>=16;"Très bien";SI(D2>=14;"Bien";SI(D2>=12;"Assez bien";"Passable")))\`
+
+Les fonctions imbriquées permettent d'attribuer automatiquement les mentions selon la note.
+
+## 4. RECHERCHEV — Rechercher des informations
+
+\`=RECHERCHEV(A2;Feuil2!A:C;2;FAUX)\`
+
+Indispensable pour croiser les données entre feuilles : récupérer le nom d'un élève, son groupe, sa filière...
+
+## 5. RANG — Classer les apprenants
+
+\`=RANG(D2;$D$2:$D$30;0)\`
+
+Calcule le **rang d'un élève** dans la classe par ordre décroissant (0 = du meilleur au moins bon).
+
+## 6. MAX et MIN — Les extrêmes
+
+\`=MAX(D2:D30)\` et \`=MIN(D2:D30)\`
+
+Pour afficher instantanément la **meilleure et la plus faible note** de la classe.
+
+## 7. NBVAL — Compter les présents
+
+\`=NBVAL(A2:A30)\`
+
+Compte toutes les cellules non vides — parfait pour vérifier que toutes les copies ont été notées.
+
+## 8. CONCATENER / TEXTE — Générer des phrases automatiques
+
+\`="L'élève "&A2&" a obtenu "&D2&"/20 en "&E2\`
+
+Génère automatiquement des commentaires personnalisés pour les bulletins.
+
+## 9. Mise en forme conditionnelle
+
+Pas une formule mais une fonctionnalité essentielle : coloriez automatiquement en **rouge** les notes inférieures à 10, en **vert** celles supérieures à 16.
+
+**Accès** : Accueil → Mise en forme conditionnelle → Règles de mise en surbrillance.
+
+## 10. Tableau croisé dynamique
+
+Pour analyser rapidement les performances par discipline, par groupe ou par période, rien ne vaut un **tableau croisé dynamique**. En quelques clics, vous obtenez des statistiques complètes sans une seule formule.
+
+## Conclusion
+
+Maîtriser ces 10 fonctions vous permettra de passer de la gestion manuelle des données à une **gestion numérique efficace et professionnelle**. Je vous encourage à les pratiquer sur vos propres tableaux de notes.
+
+> 💡 Conseil : créez un fichier modèle réutilisable chaque année avec toutes ces formules déjà en place.`,
+    tags: ['Excel', 'Bureautique', 'Enseignement', 'Formules'],
+    emoji: '📊',
+    color: '#1a3a5c',
+    date: '2025-03-15',
+    readtime: '7 min'
+  },
+  {
+    id: 's2',
+    title: "Intégrer l'Intelligence Artificielle dans ses cours : guide pour formateurs",
+    category: 'IA & Numérique',
+    excerpt: 'Découvrez comment utiliser ChatGPT, Copilot et d\'autres outils IA pour enrichir vos séances de formation.',
+    content: `## Pourquoi l'IA change-t-elle la donne pour les formateurs ?
+
+L'Intelligence Artificielle n'est plus réservée aux ingénieurs et aux chercheurs. Aujourd'hui, des outils accessibles à tous permettent aux **enseignants et formateurs** de transformer leurs pratiques pédagogiques.
+
+Depuis que j'ai intégré l'IA dans mes formations, j'ai constaté des gains de temps considérables et une meilleure personnalisation des parcours d'apprentissage.
+
+## Quels outils utiliser ?
+
+### ChatGPT (OpenAI)
+Le plus connu. Utilisez-le pour :
+- Générer des **exercices pratiques** en quelques secondes
+- Expliquer des concepts complexes de manière simplifiée
+- Corriger et améliorer vos supports de cours
+- Créer des **scénarios pédagogiques** différenciés
+
+### Microsoft Copilot
+Intégré à Word, Excel et PowerPoint, Copilot :
+- Rédige automatiquement des rapports à partir de vos données
+- Génère des formules Excel depuis une description en français
+- Crée des présentations structurées depuis un plan
+
+### Canva AI
+Pour créer des **visuels pédagogiques** sans être graphiste :
+- Infographies automatiques
+- Présentations avec mise en page professionnelle
+- Images générées à partir d'une description
+
+## Cas pratique : préparer une séquence pédagogique
+
+Voici comment j'utilise ChatGPT pour préparer mes cours :
+
+**Mon prompt type :**
+> "Crée une séquence pédagogique de 3 heures sur Excel pour des apprenants adultes débutants, en utilisant l'approche par compétences. Inclus les objectifs, les activités et l'évaluation."
+
+En **30 secondes**, j'obtiens une base solide que j'adapte ensuite à mon contexte.
+
+## Les limites à connaître
+
+- L'IA peut produire des **informations incorrectes** : vérifiez toujours
+- Elle ne remplace pas le jugement pédagogique du formateur
+- Les apprenants doivent apprendre à **l'utiliser de manière critique**
+
+## Former ses apprenants à l'IA
+
+Il ne s'agit pas seulement d'utiliser l'IA soi-même, mais d'**enseigner à ses apprenants à l'utiliser** de manière éthique et efficace.
+
+Dans mes formations, je consacre désormais un module entier à :
+- La compréhension du fonctionnement des IA génératives
+- L'art du **prompting** (rédiger de bonnes instructions)
+- Les enjeux éthiques : plagiat, fiabilité, données personnelles
+
+## Conclusion
+
+L'IA est un outil parmi d'autres. Ce qui fait la différence, c'est la **posture pédagogique** du formateur qui l'intègre de manière réfléchie et critique.
+
+> 💡 Commencez petit : utilisez ChatGPT pour générer vos 5 prochains exercices, puis évaluez le résultat.`,
+    tags: ["Intelligence Artificielle", "IA", "Formation", "Numérique"],
+    emoji: '🤖',
+    color: '#0a2a1a',
+    date: '2025-04-02',
+    readtime: '8 min'
+  },
+  {
+    id: 's3',
+    title: "L'Approche Par Compétences (APC) : principes et mise en œuvre",
+    category: 'Pédagogie',
+    excerpt: 'Comprendre l\'APC et l\'appliquer concrètement dans la conception de vos référentiels et séquences de formation.',
+    content: `## Qu'est-ce que l'Approche Par Compétences ?
+
+L'**Approche Par Compétences (APC)** est une démarche pédagogique qui place le développement des compétences — et non la simple transmission de savoirs — au cœur du dispositif de formation.
+
+Elle répond à une question fondamentale : **"À quoi saura faire l'apprenant à l'issue de la formation ?"**
+
+## Les trois dimensions d'une compétence
+
+Une compétence se définit toujours par trois composantes :
+
+- **Savoir** : les connaissances théoriques
+- **Savoir-faire** : les habiletés pratiques
+- **Savoir-être** : les attitudes et comportements professionnels
+
+> Une compétence n'est donc jamais uniquement théorique. Elle se manifeste dans une situation professionnelle réelle.
+
+## Pourquoi adopter l'APC en Formation Professionnelle ?
+
+### Pertinence professionnelle
+L'APC aligne la formation sur les **besoins réels du marché du travail**. Les référentiels sont construits à partir de l'analyse des situations de travail.
+
+### Motivation des apprenants
+En voyant directement le lien entre ce qu'ils apprennent et ce qu'ils feront, les apprenants sont plus **engagés et motivés**.
+
+### Évaluation authentique
+L'évaluation ne porte plus sur la mémorisation de cours, mais sur la **capacité à agir dans des situations professionnelles**.
+
+## Comment construire un référentiel APC ?
+
+### Étape 1 : Analyse des situations de travail
+- Identifier les situations professionnelles significatives du métier visé
+- Recenser les tâches et les compétences mobilisées
+
+### Étape 2 : Formulation des compétences
+Chaque compétence doit être formulée avec un **verbe d'action observable** :
+- ✅ "Concevoir un tableau de bord de suivi des apprenants sous Excel"
+- ❌ "Comprendre Excel" (trop vague, non observable)
+
+### Étape 3 : Conception des situations d'apprentissage
+- Créer des situations proches du contexte professionnel réel
+- Prévoir des activités de **transfert** (appliquer dans un nouveau contexte)
+
+### Étape 4 : Élaboration des outils d'évaluation
+- Grilles d'évaluation critériées
+- Mises en situation professionnelle
+- Évaluations formatives régulières
+
+## L'APC dans ma pratique quotidienne
+
+Dans mes cours d'informatique de gestion, chaque séquence est organisée autour d'une **situation professionnelle** :
+
+> *"Vous êtes assistant administratif dans une école. Le directeur vous demande de préparer les bulletins de notes du 1er trimestre sous Excel."*
+
+Cette mise en contexte donne du sens à chaque exercice et ancre les apprentissages dans la réalité professionnelle.
+
+## Conclusion
+
+L'APC représente une véritable **révolution pédagogique** qui demande une remise en question de nos pratiques. Mais les résultats — en termes d'engagement des apprenants et d'insertion professionnelle — en valent largement l'investissement.
+
+> 💡 Pour aller plus loin, je vous recommande de participer aux ateliers de formation APC proposés par la Direction de la Formation Professionnelle au Sénégal.`,
+    tags: ['APC', 'Pédagogie', 'FPT', 'Référentiel', 'Compétences'],
+    emoji: '🎓',
+    color: '#2a1a3c',
+    date: '2025-05-10',
+    readtime: '9 min'
+  }
+];
+
+// ─── STATE ────────────────────────────────────────────────────────────────────
+const STORAGE_KEY = 'thioube_blog_articles';
+const PIN_KEY     = 'thioube_blog_pin';
+let currentCat    = 'Tous';
+let editingId     = null;
+let selectedEmoji = '📄';
+let selectedColor = '#1a3a5c';
+
+// ─── ARTICLE STORAGE ──────────────────────────────────────────────────────────
+function getArticles() {
+  const stored = localStorage.getItem(STORAGE_KEY);
+  const custom = stored ? JSON.parse(stored) : [];
+  return [...SAMPLE_ARTICLES, ...custom].sort((a,b) => new Date(b.date) - new Date(a.date));
+}
+function getCustomArticles() {
+  const stored = localStorage.getItem(STORAGE_KEY);
+  return stored ? JSON.parse(stored) : [];
+}
+function saveCustomArticles(arr) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(arr));
+}
+function getPin() { return localStorage.getItem(PIN_KEY) || '2025'; }
+
+// ─── CATEGORY COLOR MAP ───────────────────────────────────────────────────────
+const catColors = {
+  'Bureautique':     { bg: '#1a3a5c', badge: '#4A90D9', text: '#E8EEF4' },
+  'IA & Numérique':  { bg: '#0a2a1a', badge: '#2ecc71', text: '#E8EEF4' },
+  'Pédagogie':       { bg: '#2a1a3c', badge: '#9b59b6', text: '#E8EEF4' },
+  'Bases de données':{ bg: '#3a1a1a', badge: '#e74c3c', text: '#E8EEF4' },
+  'Formation':       { bg: '#1a2a1a', badge: '#f39c12', text: '#E8EEF4' },
+};
+function getCatColor(cat) { return catColors[cat] || { bg: '#1a2a3a', badge: '#4A90D9', text: '#E8EEF4' }; }
+
+// ─── RENDER ARTICLES ──────────────────────────────────────────────────────────
+function renderArticles() {
+  const all   = getArticles();
+  const query = document.getElementById('search-input').value.toLowerCase();
+  const grid  = document.getElementById('articles-grid');
+  const stats = document.getElementById('blog-stats');
+
+  let filtered = all.filter(a => {
+    const matchCat  = currentCat === 'Tous' || a.category === currentCat;
+    const matchQ    = !query ||
+      a.title.toLowerCase().includes(query) ||
+      a.excerpt.toLowerCase().includes(query) ||
+      (a.tags || []).some(t => t.toLowerCase().includes(query));
+    return matchCat && matchQ;
+  });
+
+  stats.innerHTML = `
+    <div class="stat-pill"><strong>${all.length}</strong> articles publiés</div>
+    <div class="stat-pill"><strong>${filtered.length}</strong> résultat${filtered.length > 1 ? 's' : ''}</div>
+  `;
+
+  if (!filtered.length) {
+    grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1">
+      <div class="e-icon">📭</div>
+      <p>Aucun article trouvé pour cette recherche.</p>
+    </div>`;
+    return;
+  }
+
+  grid.innerHTML = filtered.map(a => {
+    const cc = getCatColor(a.category);
+    const color = a.color || cc.bg;
+    const tags = (a.tags || []).slice(0, 3).map(t => `<span class="art-tag">${t}</span>`).join('');
+    const dateStr = new Date(a.date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
+    return `<div class="article-card" onclick="openArticle('${a.id}')">
+      <div class="article-cover" style="background:${color};">
+        <span class="cover-emoji">${a.emoji || '📄'}</span>
+        <span class="article-cat-badge" style="background:${cc.badge};color:#fff;">${a.category}</span>
+      </div>
+      <div class="article-body">
+        <h2>${a.title}</h2>
+        <p>${a.excerpt}</p>
+        <div class="article-tags">${tags}</div>
+        <div class="article-meta">
+          <span class="article-date">📅 ${dateStr}</span>
+          <span class="article-read">⏱ ${a.readtime || '5 min'}</span>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ─── OPEN / CLOSE ARTICLE ─────────────────────────────────────────────────────
+function openArticle(id) {
+  const a = getArticles().find(x => x.id === id);
+  if (!a) return;
+  const cc = getCatColor(a.category);
+  const dateStr = new Date(a.date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
+
+  document.getElementById('av-cat').textContent = a.category;
+  document.getElementById('av-cat').style.background = cc.badge;
+  document.getElementById('av-cat').style.color = '#fff';
+  document.getElementById('av-title').textContent = a.title;
+  document.getElementById('av-meta').innerHTML = `
+    <span>📅 ${dateStr}</span>
+    <span>⏱ ${a.readtime || '5 min'} de lecture</span>
+    <span>✍️ El Hadji Mamadou THIOUBE</span>
+  `;
+  document.getElementById('av-content').innerHTML = parseMarkdown(a.content);
+  document.getElementById('article-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  document.getElementById('article-overlay').scrollTop = 0;
+}
+function closeArticle() {
+  document.getElementById('article-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// ─── SIMPLE MARKDOWN PARSER ────────────────────────────────────────────────────
+function parseMarkdown(text) {
+  if (!text) return '';
+  return text
+    .replace(/^## (.+)$/gm, '<h2>$1</h2>')
+    .replace(/^### (.+)$/gm, '<h3>$1</h3>')
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/`(.+?)`/g, '<code>$1</code>')
+    .replace(/^> (.+)$/gm, '<blockquote>$1</blockquote>')
+    .replace(/^- (.+)$/gm, '<li>$1</li>')
+    .replace(/(<li>.*<\/li>)/gs, m => '<ul>' + m + '</ul>')
+    .replace(/^\d+\. (.+)$/gm, '<li>$1</li>')
+    .replace(/\n\n/g, '</p><p>')
+    .replace(/^(?!<[hublp])/gm, '')
+    .replace(/(<p>)?([^<\n][^\n]*[^>\n])(<\/p>)?/gm, (m, o, c, e) => {
+      if (m.startsWith('<')) return m;
+      return '<p>' + m + '</p>';
+    })
+    .split('\n').map(line => {
+      if (!line.trim()) return '';
+      if (line.match(/^<[hublp]/)) return line;
+      return '<p>' + line + '</p>';
+    }).join('\n')
+    .replace(/<p><\/p>/g, '')
+    .replace(/<p>(<[hublp])/g, '$1')
+    .replace(/(<\/[hublp][^>]*>)<\/p>/g, '$1');
+}
+
+// ─── FILTER ────────────────────────────────────────────────────────────────────
+function filterArticles() { renderArticles(); }
+function setCategory(cat, el) {
+  currentCat = cat;
+  document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  renderArticles();
+}
+
+// ─── ADMIN ─────────────────────────────────────────────────────────────────────
+function openAdmin() {
+  document.getElementById('admin-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  resetPin();
+}
+function closeAdmin() {
+  document.getElementById('admin-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+  document.getElementById('editor-section').classList.remove('visible');
+  document.getElementById('pin-screen').style.display = '';
+  document.getElementById('article-form').style.display = 'none';
+  editingId = null;
+}
+
+// ─── PIN ───────────────────────────────────────────────────────────────────────
+function resetPin() {
+  ['pin1','pin2','pin3','pin4'].forEach(id => { document.getElementById(id).value = ''; });
+  document.getElementById('pin-error').textContent = '';
+  document.getElementById('pin-screen').style.display = '';
+  document.getElementById('editor-section').classList.remove('visible');
+  setTimeout(() => document.getElementById('pin1').focus(), 200);
+}
+function pinNext(el, nextId) {
+  if (el.value) document.getElementById(nextId).focus();
+}
+function checkPin() {
+  const entered = ['pin1','pin2','pin3','pin4'].map(id => document.getElementById(id).value).join('');
+  if (entered.length < 4) return;
+  if (entered === getPin()) {
+    document.getElementById('pin-screen').style.display = 'none';
+    document.getElementById('editor-section').classList.add('visible');
+    renderAdminList();
+  } else {
+    document.getElementById('pin-error').textContent = '❌ Code incorrect. Réessayez.';
+    setTimeout(() => {
+      ['pin1','pin2','pin3','pin4'].forEach(id => { document.getElementById(id).value = ''; });
+      document.getElementById('pin1').focus();
+    }, 900);
+  }
+}
+function changePin() {
+  const np = document.getElementById('new-pin').value.trim();
+  if (!/^\d{4}$/.test(np)) { showToast('❌ Le code doit contenir exactement 4 chiffres.'); return; }
+  localStorage.setItem(PIN_KEY, np);
+  document.getElementById('new-pin').value = '';
+  showToast('✅ Code PIN modifié avec succès !');
+}
+
+// ─── ADMIN LIST ────────────────────────────────────────────────────────────────
+function renderAdminList() {
+  const custom = getCustomArticles();
+  const el = document.getElementById('admin-articles-list');
+  if (!custom.length) {
+    el.innerHTML = `<p style="color:var(--gray-blue);font-size:0.88rem;margin-bottom:24px;">
+      Aucun article personnalisé. Les 3 articles d'exemple sont toujours visibles. Créez votre premier article ci-dessus !
+    </p>`;
+    return;
+  }
+  el.innerHTML = `<h3 style="font-size:0.95rem;color:var(--gray-blue);margin-bottom:14px;">Vos articles (${custom.length})</h3>` +
+    custom.map(a => {
+      const d = new Date(a.date).toLocaleDateString('fr-FR', {day:'numeric',month:'short',year:'numeric'});
+      return `<div class="admin-article-item">
+        <div>
+          <div class="ai-title">${a.title}</div>
+          <div class="ai-meta">${a.category} · ${d} · ${a.readtime}</div>
+        </div>
+        <div class="ai-actions">
+          <button class="ai-btn edit-btn" onclick="editArticle('${a.id}')">✏️ Modifier</button>
+          <button class="ai-btn del-btn" onclick="deleteArticle('${a.id}')">🗑️ Supprimer</button>
+        </div>
+      </div>`;
+    }).join('');
+}
+
+// ─── EDITOR ────────────────────────────────────────────────────────────────────
+function showEditor(a) {
+  editingId = a ? a.id : null;
+  document.getElementById('form-title-label').textContent = a ? 'Modifier l\'article' : 'Nouvel article';
+  document.getElementById('f-title').value   = a ? a.title : '';
+  document.getElementById('f-cat').value     = a ? a.category : 'Bureautique';
+  document.getElementById('f-readtime').value= a ? a.readtime : '5 min';
+  document.getElementById('f-excerpt').value = a ? a.excerpt : '';
+  document.getElementById('f-tags').value    = a ? (a.tags||[]).join(', ') : '';
+  document.getElementById('f-content').value = a ? a.content : '';
+
+  selectedEmoji = a ? a.emoji : '📄';
+  selectedColor = a ? a.color : '#1a3a5c';
+  document.querySelectorAll('.emoji-opt').forEach(e => e.classList.toggle('selected', e.dataset.emoji === selectedEmoji));
+  document.querySelectorAll('.color-opt').forEach(c => c.classList.toggle('selected', c.dataset.color === selectedColor));
+
+  document.getElementById('article-form').style.display = 'block';
+  document.getElementById('article-form').scrollIntoView({ behavior: 'smooth' });
+}
+function cancelEdit() {
+  document.getElementById('article-form').style.display = 'none';
+  editingId = null;
+}
+function editArticle(id) {
+  const a = getCustomArticles().find(x => x.id === id);
+  if (a) showEditor(a);
+}
+function deleteArticle(id) {
+  if (!confirm('Supprimer cet article définitivement ?')) return;
+  const arr = getCustomArticles().filter(a => a.id !== id);
+  saveCustomArticles(arr);
+  renderAdminList();
+  renderArticles();
+  showToast('🗑️ Article supprimé.');
+}
+function saveArticle() {
+  const title   = document.getElementById('f-title').value.trim();
+  const cat     = document.getElementById('f-cat').value;
+  const readtime= document.getElementById('f-readtime').value.trim();
+  const excerpt = document.getElementById('f-excerpt').value.trim();
+  const tagsRaw = document.getElementById('f-tags').value.trim();
+  const content = document.getElementById('f-content').value.trim();
+
+  if (!title || !excerpt || !content) { showToast('⚠️ Titre, résumé et contenu sont obligatoires.'); return; }
+
+  const tags = tagsRaw ? tagsRaw.split(',').map(t => t.trim()).filter(Boolean) : [];
+  const now  = new Date().toISOString().split('T')[0];
+
+  const arr = getCustomArticles();
+  if (editingId) {
+    const idx = arr.findIndex(a => a.id === editingId);
+    if (idx > -1) arr[idx] = { ...arr[idx], title, category: cat, readtime, excerpt, tags, content, emoji: selectedEmoji, color: selectedColor };
+  } else {
+    arr.push({ id: 'c' + Date.now(), title, category: cat, readtime, excerpt, tags, content, emoji: selectedEmoji, color: selectedColor, date: now });
+  }
+  saveCustomArticles(arr);
+  renderAdminList();
+  renderArticles();
+  document.getElementById('article-form').style.display = 'none';
+  editingId = null;
+  showToast('✅ Article publié avec succès !');
+}
+
+// ─── EMOJI / COLOR SELECTORS ──────────────────────────────────────────────────
+function selectEmoji(el) {
+  document.querySelectorAll('.emoji-opt').forEach(e => e.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedEmoji = el.dataset.emoji;
+}
+function selectColor(el) {
+  document.querySelectorAll('.color-opt').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedColor = el.dataset.color;
+}
+
+// ─── TOAST ─────────────────────────────────────────────────────────────────────
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// ─── SCROLL & PROGRESS ────────────────────────────────────────────────────────
+window.addEventListener('scroll', () => {
+  const s = window.scrollY;
+  document.getElementById('scroll-top').classList.toggle('visible', s > 300);
+  const total = document.documentElement.scrollHeight - window.innerHeight;
+  document.getElementById('progress-bar').style.width = (s / total * 100) + '%';
+});
+
+// ─── KEYBOARD SHORTCUTS ────────────────────────────────────────────────────────
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    closeArticle();
+    closeAdmin();
+  }
+});
+
+// ─── INIT ─────────────────────────────────────────────────────────────────────
+renderArticles();
+</script>
+</body>
+</html>

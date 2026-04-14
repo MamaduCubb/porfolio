@@ -2,824 +2,1228 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>El Hadji Mamadou THIOUBE — Portfolio</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
+    /* ===== RESET & BASE ===== */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
     :root {
-      --cream:    #0D1B2A;
-      --ink:      #E8EEF4;
-      --terracotta: #4A90D9;
-      --ochre:    #7EC8E3;
-      --sage:     #5BB8A0;
-      --sand:     #112236;
-      --muted:    #7A9BBF;
-      --line:     rgba(74,144,217,.15);
+      --blue-night:    #0D1B2A;
+      --blue-marine:   #112236;
+      --blue-electric: #4A90D9;
+      --blue-sky:      #7EC8E3;
+      --white-off:     #E8EEF4;
+      --gray-blue:     #7A9BBF;
+      --black-deep:    #060E18;
+      --glow: 0 0 18px rgba(74,144,217,0.55);
+      --glow-lg: 0 0 38px rgba(74,144,217,0.4);
     }
-
     html { scroll-behavior: smooth; }
-
     body {
-      background: var(--cream);
-      color: var(--ink);
       font-family: 'DM Sans', sans-serif;
-      font-weight: 300;
-      line-height: 1.7;
+      background: var(--blue-night);
+      color: var(--white-off);
       overflow-x: hidden;
     }
+    h1, h2, h3 { font-family: 'Playfair Display', serif; }
+    a { text-decoration: none; color: inherit; }
 
-    /* ─── NOISE TEXTURE OVERLAY ─── */
-    body::before {
-      content: '';
-      position: fixed; inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-      pointer-events: none; z-index: 999;
+    /* ===== PROGRESS BAR ===== */
+    #progress-bar {
+      position: fixed; top: 0; left: 0; height: 3px; width: 0%;
+      background: linear-gradient(90deg, var(--blue-electric), var(--blue-sky));
+      z-index: 9999; transition: width 0.1s linear;
     }
 
-    /* ─── PROGRESS BAR ─── */
-    #progress {
-      position: fixed; top: 0; left: 0;
-      height: 2px; width: 0;
-      background: var(--terracotta);
-      z-index: 1000;
-      transition: width .1s linear;
-    }
-
-    /* ─── NAV ─── */
+    /* ===== NAVBAR ===== */
     nav {
-      position: fixed; top: 0; left: 0; right: 0;
+      position: fixed; top: 3px; left: 0; right: 0; z-index: 1000;
+      padding: 18px 40px;
       display: flex; align-items: center; justify-content: space-between;
-      padding: 1.2rem 4rem;
-      background: rgba(13,27,42,.92);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--line);
-      z-index: 100;
-      transition: padding .3s;
+      transition: background 0.4s, box-shadow 0.4s, padding 0.3s;
+    }
+    nav.scrolled {
+      background: rgba(13,27,42,0.97);
+      box-shadow: 0 2px 24px rgba(0,0,0,0.5);
+      padding: 12px 40px;
     }
     .nav-logo {
       font-family: 'Playfair Display', serif;
-      font-size: 1.1rem;
-      font-weight: 700;
-      letter-spacing: .04em;
-      color: var(--ink);
-      text-decoration: none;
+      font-size: 1.25rem; font-weight: 700;
+      color: var(--blue-electric);
+      letter-spacing: 0.5px;
     }
-    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links { display: flex; gap: 32px; list-style: none; }
     .nav-links a {
-      font-family: 'DM Mono', monospace;
-      font-size: .72rem;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      color: var(--muted);
-      text-decoration: none;
-      transition: color .2s;
-      position: relative;
+      font-size: 0.9rem; font-weight: 500;
+      color: var(--gray-blue);
+      transition: color 0.3s;
+      letter-spacing: 0.3px;
     }
-    .nav-links a::after {
-      content: '';
-      position: absolute; bottom: -2px; left: 0; right: 0;
-      height: 1px; background: var(--terracotta);
-      transform: scaleX(0); transform-origin: right;
-      transition: transform .3s;
+    .nav-links a:hover { color: var(--blue-sky); }
+    .hamburger {
+      display: none; flex-direction: column; gap: 5px; cursor: pointer; z-index: 1100;
     }
-    .nav-links a:hover { color: var(--terracotta); }
-    .nav-links a:hover::after { transform: scaleX(1); transform-origin: left; }
+    .hamburger span {
+      width: 26px; height: 2px; background: var(--white-off); border-radius: 2px;
+      transition: all 0.3s;
+    }
+    .hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px,5px); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px,-5px); }
+    .mobile-menu {
+      display: none; position: fixed; inset: 0; background: rgba(6,14,24,0.98);
+      flex-direction: column; align-items: center; justify-content: center;
+      gap: 36px; z-index: 1050;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a { font-size: 1.6rem; color: var(--white-off); font-family: 'Playfair Display', serif; }
 
-    /* ─── HERO ─── */
+    /* ===== SECTION SHARED ===== */
+    section { padding: 100px 40px; }
+    .section-title {
+      text-align: center; margin-bottom: 64px;
+    }
+    .section-title h2 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      color: var(--white-off);
+      position: relative; display: inline-block;
+    }
+    .section-title h2::after {
+      content: '';
+      display: block; height: 3px; width: 60px; margin: 14px auto 0;
+      background: linear-gradient(90deg, var(--blue-electric), var(--blue-sky));
+      border-radius: 2px;
+    }
+    .section-title p {
+      color: var(--gray-blue); margin-top: 16px; font-size: 1rem;
+    }
+    .fade-in { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .fade-in.visible { opacity: 1; transform: none; }
+
+    /* ===== HERO ===== */
     #hero {
-      min-height: 100vh;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      align-items: center;
-      padding: 0 4rem;
-      gap: 4rem;
-      position: relative;
+      position: relative; min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; padding: 120px 40px 80px; overflow: hidden;
+    }
+    #hero-canvas {
+      position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0;
+    }
+    .hero-content { position: relative; z-index: 1; max-width: 820px; }
+    .hero-photo-wrap {
+      width: 150px; height: 150px; border-radius: 50%;
+      border: 3px solid var(--blue-electric);
+      box-shadow: var(--glow-lg);
+      margin: 0 auto 32px;
+      background: var(--blue-marine);
+      display: flex; align-items: center; justify-content: center;
       overflow: hidden;
-      background: radial-gradient(ellipse at 30% 50%, rgba(74,144,217,.08) 0%, transparent 60%),
-                  radial-gradient(ellipse at 80% 20%, rgba(126,200,227,.05) 0%, transparent 50%);
     }
-    #hero::after {
-      content: 'EMT';
-      position: absolute;
-      right: -2rem; bottom: -4rem;
-      font-family: 'Playfair Display', serif;
-      font-size: 22rem;
-      font-weight: 900;
-      color: #112236;
-      line-height: 1;
-      pointer-events: none;
-      user-select: none;
-      z-index: 0;
-    }
-    .hero-content { position: relative; z-index: 1; }
-    .hero-tag {
-      display: inline-block;
-      font-family: 'DM Mono', monospace;
-      font-size: .68rem;
-      letter-spacing: .18em;
-      text-transform: uppercase;
-      color: var(--terracotta);
-      border: 1px solid var(--terracotta);
-      padding: .35rem .9rem;
-      margin-bottom: 2rem;
-      opacity: 0; animation: fadeUp .6s .2s forwards;
+    .hero-photo-wrap svg { width: 70px; height: 70px; opacity: 0.5; }
+    .hero-photo-label {
+      font-size: 0.65rem; color: var(--gray-blue); margin-top: 4px; font-family: 'DM Mono', monospace;
     }
     .hero-name {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(2.8rem, 5vw, 5rem);
-      font-weight: 900;
-      line-height: 1.05;
-      margin-bottom: 1.5rem;
-      opacity: 0; animation: fadeUp .6s .35s forwards;
+      font-size: clamp(2.2rem, 5vw, 3.6rem);
+      font-weight: 900; color: var(--white-off);
+      text-shadow: 0 2px 30px rgba(74,144,217,0.3);
+      margin-bottom: 18px;
     }
-    .hero-name em {
-      font-style: italic;
-      color: var(--terracotta);
+    .typewriter-wrap {
+      font-size: clamp(1rem, 2.2vw, 1.3rem);
+      color: var(--blue-sky); min-height: 40px; margin-bottom: 48px;
+      font-family: 'DM Mono', monospace; letter-spacing: 0.5px;
     }
-    .hero-sub {
-      font-size: 1.1rem;
-      color: var(--muted);
-      max-width: 42ch;
-      margin-bottom: 2.5rem;
-      opacity: 0; animation: fadeUp .6s .5s forwards;
-    }
-    .hero-cta {
-      display: flex; gap: 1rem; flex-wrap: wrap;
-      opacity: 0; animation: fadeUp .6s .65s forwards;
-    }
-    .btn {
-      display: inline-block;
-      padding: .85rem 2rem;
-      font-family: 'DM Mono', monospace;
-      font-size: .75rem;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      text-decoration: none;
-      border-radius: 2px;
-      transition: all .25s;
-      cursor: pointer;
-    }
-    .btn-primary {
-      background: var(--terracotta);
-      color: #fff;
-      border: 1px solid var(--terracotta);
-    }
-    .btn-primary:hover { background: var(--ink); border-color: var(--ink); transform: translateY(-2px); }
-    .btn-outline {
-      background: transparent;
-      color: var(--ink);
-      border: 1px solid var(--muted);
-    }
-    .btn-outline:hover { background: var(--terracotta); color: #fff; border-color: var(--terracotta); transform: translateY(-2px); }
+    .typewriter-cursor { border-right: 2px solid var(--blue-sky); animation: blink 0.7s step-end infinite; }
+    @keyframes blink { 50% { border-color: transparent; } }
 
+    /* Stats */
     .hero-stats {
-      position: relative; z-index: 1;
-      display: flex; flex-direction: column; gap: 2rem;
-      padding-left: 4rem;
-      border-left: 1px solid var(--line);
-      opacity: 0; animation: fadeUp .7s .8s forwards;
+      display: flex; justify-content: center; gap: 48px; flex-wrap: wrap; margin-bottom: 48px;
     }
-    .stat-num {
+    .stat-item { text-align: center; }
+    .stat-number {
       font-family: 'Playfair Display', serif;
-      font-size: 3.5rem;
-      font-weight: 900;
-      color: var(--terracotta);
+      font-size: 2.5rem; font-weight: 700; color: var(--blue-electric);
       line-height: 1;
     }
-    .stat-label {
-      font-family: 'DM Mono', monospace;
-      font-size: .72rem;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      color: var(--muted);
+    .stat-label { font-size: 0.8rem; color: var(--gray-blue); margin-top: 6px; max-width: 90px; }
+
+    /* CTA Buttons */
+    .hero-btns { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
+    .btn-primary {
+      padding: 14px 34px; border-radius: 50px;
+      background: linear-gradient(135deg, var(--blue-electric), #2a6fbd);
+      color: #fff; font-weight: 600; font-size: 0.95rem;
+      box-shadow: var(--glow); transition: transform 0.3s, box-shadow 0.3s;
+      border: none; cursor: pointer;
+    }
+    .btn-primary:hover { transform: translateY(-3px); box-shadow: var(--glow-lg); }
+    .btn-outline {
+      padding: 14px 34px; border-radius: 50px;
+      border: 1.5px solid var(--blue-electric);
+      color: var(--blue-sky); font-weight: 600; font-size: 0.95rem;
+      background: transparent; cursor: pointer;
+      transition: background 0.3s, box-shadow 0.3s, transform 0.3s;
+    }
+    .btn-outline:hover {
+      background: rgba(74,144,217,0.12);
+      box-shadow: var(--glow); transform: translateY(-3px);
     }
 
-    /* ─── SECTION WRAPPER ─── */
-    section {
-      padding: 7rem 4rem;
-      position: relative;
+    /* ===== ABOUT ===== */
+    #about { background: var(--blue-marine); }
+    .about-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 60px; max-width: 1100px; margin: 0 auto;
     }
-    section:nth-child(even) { background: var(--sand); }
-
-    .section-label {
-      font-family: 'DM Mono', monospace;
-      font-size: .68rem;
-      letter-spacing: .2em;
-      text-transform: uppercase;
-      color: var(--terracotta);
-      margin-bottom: 1rem;
+    .about-bio p {
+      color: var(--gray-blue); line-height: 1.9; font-size: 1rem; margin-bottom: 28px;
     }
-    .section-title {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(2rem, 4vw, 3.2rem);
-      font-weight: 700;
-      line-height: 1.1;
-      margin-bottom: 4rem;
-      max-width: 20ch;
+    .about-info { list-style: none; display: flex; flex-direction: column; gap: 14px; }
+    .about-info li {
+      display: flex; align-items: center; gap: 12px;
+      font-size: 0.95rem; color: var(--white-off);
     }
-    .section-title em { font-style: italic; color: var(--muted); }
-
-    /* ─── ABOUT ─── */
-    #about .about-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 6rem;
-      align-items: start;
-    }
-    .about-text p { color: var(--muted); margin-bottom: 1.2rem; font-size: 1.05rem; }
-    .about-text p strong { color: var(--ink); font-weight: 500; }
-    .about-contact {
-      display: flex; flex-direction: column; gap: 1rem;
-      margin-top: 2rem;
-    }
-    .contact-item {
-      display: flex; align-items: center; gap: 1rem;
-      font-family: 'DM Mono', monospace;
-      font-size: .8rem;
-    }
-    .contact-item .icon {
-      width: 36px; height: 36px;
-      background: var(--ink);
-      color: var(--cream);
-      display: flex; align-items: center; justify-content: center;
-      border-radius: 2px;
-      flex-shrink: 0;
-    }
-
+    .about-info li span.icon { font-size: 1.2rem; width: 28px; }
+    .cert-cards { display: flex; flex-direction: column; gap: 16px; margin-top: 36px; }
     .cert-card {
-      background: #0a1520;
-      border: 1px solid var(--line);
-      padding: 1.8rem;
-      border-radius: 4px;
-      margin-bottom: 1rem;
-      display: flex; gap: 1.5rem; align-items: flex-start;
-      transition: transform .25s, box-shadow .25s;
-      position: relative; overflow: hidden;
+      border: 1.5px solid var(--blue-electric);
+      border-radius: 14px; padding: 18px 22px;
+      background: rgba(74,144,217,0.07);
+      display: flex; align-items: center; gap: 16px;
+      transition: box-shadow 0.3s, transform 0.3s;
     }
-    .cert-card::before {
-      content: '';
-      position: absolute; left: 0; top: 0; bottom: 0;
-      width: 3px; background: var(--terracotta);
-    }
-    .cert-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,0,0,.08); }
-    .cert-year {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: var(--ochre);
-      min-width: 60px;
-    }
-    .cert-info strong { display: block; font-weight: 500; margin-bottom: .3rem; }
-    .cert-info span { font-size: .85rem; color: var(--muted); }
+    .cert-card:hover { box-shadow: var(--glow); transform: translateX(5px); }
+    .cert-card .medal { font-size: 1.5rem; }
+    .cert-card .cert-text { font-size: 0.9rem; color: var(--white-off); font-weight: 500; }
+    .cert-card .cert-text span { display: block; color: var(--gray-blue); font-size: 0.8rem; margin-top: 2px; }
 
-    /* ─── EXPERIENCE ─── */
-    .timeline { position: relative; }
+    /* ===== PARCOURS ===== */
+    #parcours { background: var(--blue-night); }
+    .timeline { position: relative; max-width: 900px; margin: 0 auto 80px; }
     .timeline::before {
-      content: '';
-      position: absolute;
-      left: 10px; top: 0; bottom: 0;
-      width: 1px; background: var(--line);
+      content: ''; position: absolute; left: 50%; top: 0; bottom: 0; width: 2px;
+      background: linear-gradient(180deg, var(--blue-electric), transparent);
+      transform: translateX(-50%);
     }
     .timeline-item {
-      padding-left: 4rem;
-      padding-bottom: 3.5rem;
-      position: relative;
+      display: flex; justify-content: flex-end; padding-right: calc(50% + 40px);
+      margin-bottom: 48px; position: relative;
     }
-    .timeline-item::before {
-      content: '';
-      position: absolute; left: 0; top: 6px;
-      width: 22px; height: 22px;
-      border-radius: 50%;
-      border: 2px solid var(--terracotta);
-      background: var(--cream);
-    .tl-period {
-      font-family: 'DM Mono', monospace;
-      font-size: .68rem;
-      letter-spacing: .14em;
-      color: var(--terracotta);
-      text-transform: uppercase;
-      margin-bottom: .5rem;
+    .timeline-item:nth-child(even) {
+      justify-content: flex-start; padding-right: 0; padding-left: calc(50% + 40px);
     }
-    .tl-role {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.3rem;
-      font-weight: 700;
-      margin-bottom: .3rem;
+    .timeline-dot {
+      position: absolute; left: 50%; top: 22px; width: 16px; height: 16px;
+      background: var(--blue-electric); border-radius: 50%;
+      transform: translateX(-50%);
+      box-shadow: 0 0 0 4px rgba(74,144,217,0.25);
+      animation: pulse-dot 2s infinite;
     }
-    .tl-org {
-      font-weight: 500;
-      color: var(--sage);
-      margin-bottom: .8rem;
+    @keyframes pulse-dot {
+      0%, 100% { box-shadow: 0 0 0 4px rgba(74,144,217,0.25); }
+      50% { box-shadow: 0 0 0 10px rgba(74,144,217,0.1); }
     }
-    .tl-desc { color: var(--muted); font-size: .95rem; }
-
-    /* ─── SKILLS ─── */
-    #competences { background: #060E18; color: var(--ink); }
-    #competences .section-title { color: var(--cream); }
-    #competences .section-label { color: var(--ochre); }
-    .skills-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 2rem;
+    .timeline-card {
+      background: var(--blue-marine); border-radius: 16px;
+      border: 1px solid rgba(74,144,217,0.2);
+      padding: 24px 28px; max-width: 380px;
+      transition: box-shadow 0.3s, border-color 0.3s;
     }
-    .skill-card {
-      border: 1px solid rgba(255,255,255,.1);
-      padding: 2rem;
-      border-radius: 4px;
-      transition: border-color .25s, background .25s;
+    .timeline-card:hover { box-shadow: var(--glow); border-color: var(--blue-electric); }
+    .timeline-date {
+      font-family: 'DM Mono', monospace; font-size: 0.8rem;
+      color: var(--blue-electric); margin-bottom: 8px;
     }
-    .skill-card:hover {
-      border-color: var(--ochre);
-      background: rgba(255,255,255,.04);
-    }
-    .skill-card-title {
-      font-family: 'DM Mono', monospace;
-      font-size: .72rem;
-      letter-spacing: .15em;
-      text-transform: uppercase;
-      color: var(--ochre);
-      margin-bottom: 1.2rem;
-    }
-    .skill-tags { display: flex; flex-wrap: wrap; gap: .5rem; }
+    .timeline-card h3 { font-size: 1.05rem; color: var(--white-off); margin-bottom: 4px; }
+    .timeline-card .org { color: var(--blue-sky); font-size: 0.9rem; margin-bottom: 10px; }
+    .timeline-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
     .tag {
-      background: rgba(255,255,255,.07);
-      color: rgba(245,240,232,.8);
-      padding: .35rem .8rem;
-      border-radius: 2px;
-      font-size: .82rem;
-      border: 1px solid rgba(255,255,255,.08);
-      transition: background .2s;
+      font-size: 0.72rem; padding: 3px 10px; border-radius: 20px;
+      background: rgba(74,144,217,0.15); color: var(--blue-sky);
+      font-family: 'DM Mono', monospace;
     }
-    .tag:hover { background: rgba(192,85,42,.25); border-color: var(--terracotta); }
+    .timeline-card p { font-size: 0.88rem; color: var(--gray-blue); line-height: 1.7; }
 
-    /* ─── PROJECTS ─── */
-    .projects-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 1.5rem;
+    /* Education table */
+    .education-section { max-width: 900px; margin: 0 auto; }
+    .edu-title { font-size: 1.6rem; color: var(--white-off); margin-bottom: 28px; text-align: center; }
+    .edu-grid { display: flex; flex-direction: column; gap: 14px; }
+    .edu-item {
+      display: grid; grid-template-columns: 120px 1fr;
+      gap: 20px; align-items: start;
+      padding: 18px 24px; border-radius: 12px;
+      background: var(--blue-marine);
+      border-left: 3px solid var(--blue-electric);
+      transition: transform 0.3s;
     }
+    .edu-item:hover { transform: translateX(6px); }
+    .edu-year { font-family: 'DM Mono', monospace; color: var(--blue-electric); font-size: 0.85rem; }
+    .edu-desc { font-size: 0.9rem; color: var(--white-off); }
+    .edu-desc small { color: var(--gray-blue); }
+
+    /* ===== COMPETENCES ===== */
+    #competences { background: var(--blue-marine); }
+    .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 32px; max-width: 1100px; margin: 0 auto; }
+    .skill-category { background: var(--blue-night); border-radius: 18px; padding: 30px; border: 1px solid rgba(74,144,217,0.15); }
+    .skill-category h3 { font-size: 1.1rem; color: var(--blue-sky); margin-bottom: 22px; display: flex; align-items: center; gap: 10px; }
+    .skill-item { margin-bottom: 18px; }
+    .skill-header { display: flex; justify-content: space-between; margin-bottom: 7px; }
+    .skill-name { font-size: 0.88rem; color: var(--white-off); }
+    .skill-pct { font-size: 0.8rem; color: var(--blue-electric); font-family: 'DM Mono', monospace; }
+    .skill-bar { height: 6px; background: rgba(74,144,217,0.15); border-radius: 4px; overflow: hidden; }
+    .skill-fill { height: 100%; width: 0; border-radius: 4px; background: linear-gradient(90deg, var(--blue-electric), var(--blue-sky)); transition: width 1.2s ease; }
+
+    /* ===== FORMATIONS DISPENSÉES ===== */
+    #formations { background: var(--blue-night); }
+    .formations-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 28px; max-width: 1100px; margin: 0 auto; }
+    .formation-card {
+      background: var(--blue-marine); border-radius: 18px; padding: 30px 24px;
+      border: 1.5px solid rgba(74,144,217,0.12);
+      transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+      cursor: default;
+    }
+    .formation-card:hover { border-color: var(--blue-electric); box-shadow: var(--glow); transform: translateY(-6px); }
+    .formation-icon { font-size: 2.2rem; margin-bottom: 16px; }
+    .formation-card h3 { font-size: 1rem; color: var(--white-off); margin-bottom: 10px; font-family: 'DM Sans', sans-serif; font-weight: 600; }
+    .formation-card p { font-size: 0.87rem; color: var(--gray-blue); line-height: 1.7; }
+
+    /* ===== PROJETS ===== */
+    #projets { background: var(--blue-marine); }
+    .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(460px, 1fr)); gap: 32px; max-width: 1100px; margin: 0 auto; }
     .project-card {
-      border: 1px solid var(--line);
-      padding: 2.5rem;
-      border-radius: 4px;
-      background: #0a1520;
-      transition: transform .3s, box-shadow .3s;
-      position: relative; overflow: hidden;
+      background: var(--blue-night); border-radius: 20px; overflow: hidden;
+      border: 1px solid rgba(74,144,217,0.15);
+      transition: box-shadow 0.3s, border-color 0.3s;
     }
-    .project-card::after {
-      content: '';
-      position: absolute; bottom: 0; left: 0; right: 0;
-      height: 3px;
-      background: linear-gradient(90deg, var(--terracotta), var(--ochre));
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform .35s;
-    }
-    .project-card:hover { transform: translateY(-6px); box-shadow: 0 20px 50px rgba(0,0,0,.1); }
-    .project-card:hover::after { transform: scaleX(1); }
-    .project-num {
-      font-family: 'Playfair Display', serif;
-      font-size: 4rem;
-      font-weight: 900;
-      color: #112236;
-      line-height: 1;
-      margin-bottom: .5rem;
-    }
-    .project-title { font-weight: 500; font-size: 1.05rem; margin-bottom: .8rem; }
-    .project-desc { color: var(--muted); font-size: .9rem; }
-
-    /* ─── LANGUAGES ─── */
-    .lang-grid {
-      display: flex; gap: 3rem; flex-wrap: wrap;
-    }
-    .lang-item { text-align: center; }
-    .lang-circle {
-      width: 120px; height: 120px;
-      border-radius: 50%;
-      background: conic-gradient(var(--terracotta) 0%, var(--terracotta) var(--pct), var(--sand) var(--pct));
+    .project-card:hover { box-shadow: var(--glow-lg); border-color: var(--blue-electric); }
+    .project-photo {
+      height: 200px; background: var(--blue-marine);
       display: flex; align-items: center; justify-content: center;
-      margin: 0 auto 1rem;
-      position: relative;
+      overflow: hidden; position: relative;
     }
-    .lang-inner {
-      width: 88px; height: 88px;
-      border-radius: 50%;
-      background: var(--cream);
-      display: flex; align-items: center; justify-content: center;
-      font-family: 'Playfair Display', serif;
-      font-weight: 700;
-      font-size: 1.2rem;
-      color: var(--ink);
+    .project-photo-label {
+      font-size: 0.8rem; color: var(--gray-blue); font-family: 'DM Mono', monospace;
+      text-align: center; padding: 16px;
     }
-    .lang-name {
-      font-family: 'DM Mono', monospace;
-      font-size: .75rem;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      color: var(--muted);
+    .project-photo svg { width: 48px; height: 48px; opacity: 0.3; margin-bottom: 8px; }
+    .project-photo-inner { display: flex; flex-direction: column; align-items: center; }
+    .project-body { padding: 28px; }
+    .project-number {
+      font-family: 'DM Mono', monospace; font-size: 0.8rem;
+      color: var(--blue-electric); margin-bottom: 8px;
     }
+    .project-card h3 { font-size: 1.1rem; color: var(--white-off); margin-bottom: 12px; }
+    .project-card p { font-size: 0.88rem; color: var(--gray-blue); line-height: 1.7; }
 
-    /* ─── CONTACT ─── */
-    #contact {
-      background: #060E18;
-      color: var(--ink);
+    /* ===== TEMOIGNAGES ===== */
+    #temoignages { background: var(--blue-night); }
+    .testimonial-slider { max-width: 860px; margin: 0 auto; position: relative; }
+    .testimonial-track { overflow: hidden; }
+    .testimonial-cards { display: flex; transition: transform 0.5s ease; }
+    .testimonial-card {
+      min-width: 100%; padding: 44px 48px;
+      background: var(--blue-marine); border-radius: 20px;
+      border: 1px solid rgba(74,144,217,0.2);
       text-align: center;
     }
-    #contact .section-label { color: var(--muted); }
-    #contact .section-title { color: var(--ink); margin: 0 auto 3rem; }
-    .contact-grid {
-      display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap;
+    .testimonial-avatar {
+      width: 72px; height: 72px; border-radius: 50%;
+      background: var(--blue-night); border: 2px solid var(--blue-electric);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 20px; font-size: 1.4rem; font-weight: 700; color: var(--blue-sky);
+      font-family: 'Playfair Display', serif;
     }
-    .contact-pill {
-      display: flex; align-items: center; gap: .8rem;
-      background: rgba(74,144,217,.12);
-      border: 1px solid rgba(74,144,217,.3);
-      padding: 1rem 2rem;
-      border-radius: 100px;
-      text-decoration: none;
-      color: var(--ink);
-      font-family: 'DM Mono', monospace;
-      font-size: .82rem;
-      transition: background .25s, transform .25s;
+    .testimonial-text {
+      font-size: 1rem; color: var(--gray-blue); line-height: 1.8;
+      font-style: italic; margin-bottom: 24px;
     }
-    .contact-pill:hover { background: rgba(74,144,217,.25); transform: translateY(-3px); }
+    .testimonial-name { font-weight: 600; color: var(--white-off); }
+    .testimonial-role { font-size: 0.85rem; color: var(--blue-electric); margin-top: 4px; }
+    .testimonial-nav {
+      display: flex; justify-content: center; align-items: center; gap: 20px; margin-top: 28px;
+    }
+    .t-btn {
+      width: 44px; height: 44px; border-radius: 50%;
+      border: 1.5px solid var(--blue-electric); background: transparent;
+      color: var(--blue-electric); font-size: 1.2rem; cursor: pointer;
+      transition: background 0.3s, box-shadow 0.3s;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .t-btn:hover { background: rgba(74,144,217,0.15); box-shadow: var(--glow); }
+    .t-dots { display: flex; gap: 8px; }
+    .t-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(74,144,217,0.3); cursor: pointer; transition: background 0.3s; }
+    .t-dot.active { background: var(--blue-electric); }
 
-    /* ─── FOOTER ─── */
+    /* ===== CONTACT ===== */
+    #contact { background: var(--black-deep); }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; max-width: 1100px; margin: 0 auto; }
+    .contact-info h3 { font-size: 1.6rem; color: var(--white-off); margin-bottom: 16px; }
+    .contact-info p { color: var(--gray-blue); line-height: 1.8; margin-bottom: 32px; font-size: 0.95rem; }
+    .contact-list { list-style: none; display: flex; flex-direction: column; gap: 16px; }
+    .contact-list li { display: flex; align-items: center; gap: 14px; font-size: 0.95rem; color: var(--white-off); }
+    .contact-list li .c-icon { font-size: 1.2rem; width: 28px; }
+    .contact-list a { color: var(--blue-sky); transition: color 0.3s; }
+    .contact-list a:hover { color: var(--blue-electric); }
+    .contact-form { display: flex; flex-direction: column; gap: 18px; }
+    .form-group { display: flex; flex-direction: column; gap: 8px; }
+    .form-group label { font-size: 0.85rem; color: var(--gray-blue); font-weight: 500; }
+    .form-group input, .form-group textarea {
+      background: transparent;
+      border: 1.5px solid rgba(74,144,217,0.4);
+      border-radius: 10px; padding: 14px 18px;
+      color: var(--white-off); font-family: 'DM Sans', sans-serif; font-size: 0.95rem;
+      transition: border-color 0.3s, box-shadow 0.3s;
+      resize: vertical;
+    }
+    .form-group input::placeholder, .form-group textarea::placeholder { color: var(--gray-blue); }
+    .form-group input:focus, .form-group textarea:focus {
+      outline: none; border-color: var(--blue-electric); box-shadow: var(--glow);
+    }
+    .form-group textarea { min-height: 130px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+
+    /* ===== FOOTER ===== */
     footer {
+      background: var(--black-deep);
+      border-top: 1px solid rgba(74,144,217,0.1);
+      padding: 40px;
       text-align: center;
-      padding: 2rem;
-      background: #030810;
-      color: var(--muted);
-      font-family: 'DM Mono', monospace;
-      font-size: .72rem;
-      letter-spacing: .08em;
     }
+    .footer-name { font-family: 'Playfair Display', serif; font-size: 1.2rem; color: var(--white-off); margin-bottom: 6px; }
+    .footer-title { font-size: 0.85rem; color: var(--gray-blue); margin-bottom: 20px; }
+    .footer-links { display: flex; justify-content: center; gap: 24px; flex-wrap: wrap; }
+    .footer-links a { font-size: 0.9rem; color: var(--gray-blue); transition: color 0.3s; display: flex; align-items: center; gap: 6px; }
+    .footer-links a:hover { color: var(--blue-sky); }
+    .footer-copy { margin-top: 20px; font-size: 0.8rem; color: rgba(122,155,191,0.5); }
 
-    /* ─── ANIMATIONS ─── */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(28px); }
-      to   { opacity: 1; transform: translateY(0); }
+    /* ===== SCROLL TO TOP ===== */
+    #scroll-top {
+      position: fixed; bottom: 36px; right: 36px;
+      width: 48px; height: 48px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--blue-electric), #2a6fbd);
+      border: none; color: #fff; font-size: 1.3rem; cursor: pointer;
+      box-shadow: var(--glow); z-index: 999;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.4s, transform 0.3s;
+      display: flex; align-items: center; justify-content: center;
     }
-    .reveal {
-      opacity: 0; transform: translateY(32px);
-      transition: opacity .6s, transform .6s;
-    }
-    .reveal.visible { opacity: 1; transform: translateY(0); }
+    #scroll-top.visible { opacity: 1; pointer-events: all; }
+    #scroll-top:hover { transform: translateY(-4px); }
 
-    /* ─── RESPONSIVE ─── */
-    @media (max-width: 860px) {
-      nav { padding: 1rem 1.5rem; }
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 900px) {
+      .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+      .timeline::before { left: 20px; }
+      .timeline-item, .timeline-item:nth-child(even) {
+        justify-content: flex-start; padding-left: 60px; padding-right: 0;
+      }
+      .timeline-dot { left: 20px; }
+      .projects-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 700px) {
+      section { padding: 80px 20px; }
+      nav { padding: 16px 20px; }
+      nav.scrolled { padding: 12px 20px; }
       .nav-links { display: none; }
-      #hero { grid-template-columns: 1fr; padding: 8rem 1.5rem 4rem; text-align: center; }
-      #hero::after { font-size: 10rem; right: 0; bottom: -1rem; }
-      .hero-stats { padding-left: 0; border-left: none; border-top: 1px solid var(--line); padding-top: 2rem; flex-direction: row; flex-wrap: wrap; }
-      .hero-cta { justify-content: center; }
-      section { padding: 5rem 1.5rem; }
-      #about .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .hamburger { display: flex; }
+      .hero-stats { gap: 28px; }
+      .form-row { grid-template-columns: 1fr; }
+      .testimonial-card { padding: 28px 20px; }
+    }
+    @media (max-width: 480px) {
+      .projects-grid { grid-template-columns: 1fr; }
+      .stat-number { font-size: 2rem; }
     }
   </style>
 </head>
 <body>
 
-<div id="progress"></div>
+<!-- Progress Bar -->
+<div id="progress-bar"></div>
 
-<nav>
-  <a href="#hero" class="nav-logo">E. M. Thioube</a>
+<!-- NAVBAR -->
+<nav id="navbar">
+  <div class="nav-logo">EMT</div>
   <ul class="nav-links">
+    <li><a href="#hero">Accueil</a></li>
     <li><a href="#about">À propos</a></li>
-    <li><a href="#experience">Parcours</a></li>
+    <li><a href="#parcours">Parcours</a></li>
     <li><a href="#competences">Compétences</a></li>
+    <li><a href="#formations">Formations</a></li>
+    <li><a href="#galerie">Galerie</a></li>
     <li><a href="#projets">Projets</a></li>
+    <li><a href="blog.html">Blog</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
+  <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
 </nav>
+<div class="mobile-menu" id="mobile-menu">
+  <a href="#hero" onclick="closeMenu()">Accueil</a>
+  <a href="#about" onclick="closeMenu()">À propos</a>
+  <a href="#parcours" onclick="closeMenu()">Parcours</a>
+  <a href="#competences" onclick="closeMenu()">Compétences</a>
+  <a href="#formations" onclick="closeMenu()">Formations</a>
+  <a href="#galerie" onclick="closeMenu()">Galerie</a>
+  <a href="#projets" onclick="closeMenu()">Projets</a>
+  <a href="blog.html" onclick="closeMenu()">Blog</a>
+  <a href="#contact" onclick="closeMenu()">Contact</a>
+</div>
 
-<!-- ─── HERO ─── -->
+<!-- ===== SECTION 1 : HERO ===== -->
 <section id="hero">
+  <canvas id="hero-canvas"></canvas>
   <div class="hero-content">
-    <div class="hero-tag">Enseignant · Formateur · Élève Inspecteur FPT</div>
-    <h1 class="hero-name">
-      El Hadji<br>
-      <em>Mamadou</em><br>
-      Thioube
-    </h1>
-    <p class="hero-sub">
-      Professeur d'informatique de gestion, formateur certifié HEFP (Lausanne) 
-      &amp; Élève Inspecteur de spécialité – Informatique (FPT). 
-      Attesté méthodologue en APC et en formation duale.
-    </p>
-    <div class="hero-cta">
-      <a href="#contact" class="btn btn-primary">Me contacter</a>
-      <a href="#experience" class="btn btn-outline">Voir mon parcours</a>
+    <div class="hero-photo-wrap">
+      <img src="images/photo-profil.jfif" alt="El Hadji Mamadou THIOUBE" style="width:100%;height:100%;object-fit:cover;border-radius:50%;filter:grayscale(10%);" />
     </div>
-  </div>
-  <div class="hero-stats">
-    <div>
-      <div class="stat-num">9+</div>
-      <div class="stat-label">Années d'expérience</div>
+    <h1 class="hero-name">El Hadji Mamadou THIOUBE</h1>
+    <div class="typewriter-wrap">
+      <span id="typewriter"></span><span class="typewriter-cursor"> </span>
     </div>
-    <div>
-      <div class="stat-num">100+</div>
-      <div class="stat-label">Enseignants formés</div>
+    <div class="hero-stats">
+      <div class="stat-item fade-in">
+        <div class="stat-number" data-target="9" data-suffix="+">0</div>
+        <div class="stat-label">Années d'expérience</div>
+      </div>
+      <div class="stat-item fade-in">
+        <div class="stat-number" data-target="100" data-suffix="+">0</div>
+        <div class="stat-label">Enseignants formés</div>
+      </div>
+      <div class="stat-item fade-in">
+        <div class="stat-number" data-target="5" data-suffix="">0</div>
+        <div class="stat-label">Établissements</div>
+      </div>
+      <div class="stat-item fade-in">
+        <div class="stat-number" data-target="3" data-suffix="">0</div>
+        <div class="stat-label">Certifications</div>
+      </div>
     </div>
-    <div>
-      <div class="stat-num">4</div>
-      <div class="stat-label">Établissements</div>
+    <div class="hero-btns">
+      <a href="#contact" class="btn-primary">Me contacter</a>
+      <a href="CV_ElHadji_Mamadou_THIOUBE.pdf" download class="btn-outline">Télécharger mon CV</a>
     </div>
   </div>
 </section>
 
-<!-- ─── ABOUT ─── -->
+<!-- ===== SECTION 2 : À PROPOS ===== -->
 <section id="about">
-  <div class="section-label reveal">Qui suis-je</div>
-  <h2 class="section-title reveal">Pédagogue &amp; <em>innovateur</em> numérique</h2>
+  <div class="section-title fade-in">
+    <h2>À Propos</h2>
+    <p>Formateur, pédagogue et bâtisseur de compétences</p>
+  </div>
   <div class="about-grid">
-    <div class="about-text reveal">
-      <p>
-        Enseignant et formateur en <strong>informatique de gestion</strong> avec plus de neuf ans 
-        d'expérience dans l'enseignement secondaire, la formation professionnelle et la formation 
-        d'adultes au Sénégal.
-      </p>
-      <p>
-        Certifié par la <strong>HEFP de Lausanne</strong> en formation de formateurs d'adultes. 
-        Depuis <strong>octobre 2025</strong>, je suis en formation pour devenir 
-        <strong>Inspecteur de spécialité en Formation Professionnelle et Technique</strong>, 
-        option Informatique.
-      </p>
-      <p>
-        <strong>Attesté méthodologue en APC</strong> (Approche Par Compétences) et en 
-        <strong>formation duale</strong>, je conçois des dispositifs de formation innovants 
-        intégrant l'IA et le numérique pour préparer apprenants et enseignants aux défis du monde digital.
-      </p>
-      <div class="about-contact">
-        <div class="contact-item">
-          <div class="icon">📍</div>
-          <span>Dakar, Sénégal</span>
-        </div>
-        <div class="contact-item">
-          <div class="icon">✉️</div>
-          <span><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="acc4cdc8c6c5c1cdc1cdc8c3d99e9eeccbc1cdc5c082cfc3c1">[email&#160;protected]</a></span>
-        </div>
-        <div class="contact-item">
-          <div class="icon">📞</div>
-          <span>+221 77 724 09 27</span>
-        </div>
-      </div>
+    <div class="about-bio fade-in">
+      <p>Enseignant et formateur en informatique de gestion avec plus de <strong style="color:var(--blue-sky)">9 ans d'expérience</strong> dans l'enseignement secondaire, la formation professionnelle et la formation d'adultes au Sénégal. Certifié Maître Formateur par la <strong style="color:var(--blue-sky)">HEFP (Lausanne, Suisse)</strong>, attesté méthodologue en APC (Approche Par Compétences) et en formation duale.</p>
+      <p>Depuis octobre 2025, je suis en formation pour devenir <strong style="color:var(--blue-sky)">Inspecteur de spécialité en Formation Professionnelle et Technique — option Informatique</strong>, une étape clé dans ma mission de renforcer la qualité des dispositifs de formation au Sénégal.</p>
+      <p>Passionné par l'intégration du numérique et de l'Intelligence Artificielle dans la formation professionnelle, je conçois des dispositifs pédagogiques innovants, forme les enseignants aux outils du 21e siècle et accompagne les institutions dans leur transformation numérique.</p>
+      <ul class="about-info" style="margin-top:20px">
+        <li><span class="icon">📍</span> Dakar, Sénégal</li>
+        <li><span class="icon">📧</span> hadjimamadou22@gmail.com</li>
+        <li><span class="icon">📞</span> +221 77 724 09 27</li>
+        <li><span class="icon">🌍</span> Nationalité : Sénégalaise</li>
+        <li><span class="icon">🎯</span> Disponible pour missions de formation et consultance</li>
+        <li><span class="icon">🎓</span> Doctorat en cours (FASEG, UCAD)</li>
+      </ul>
     </div>
-    <div class="reveal">
-      <h3 style="font-family:'Playfair Display',serif; font-size:1.3rem; margin-bottom:1.5rem;">Formation &amp; Certifications</h3>
-      <div class="cert-card">
-        <div class="cert-year">2025</div>
-        <div class="cert-info">
-          <strong>Élève Inspecteur de spécialité – Informatique</strong>
-          <span>Formation Professionnelle et Technique (FPT) — en cours depuis oct. 2025</span>
+    <div class="fade-in">
+      <h3 style="font-size:1.2rem;color:var(--blue-sky);margin-bottom:20px;">🏅 Certifications & Diplômes</h3>
+      <div class="cert-cards">
+        <div class="cert-card">
+          <div class="medal">🏅</div>
+          <div class="cert-text">Maître Formateur <span>HEFP, Lausanne, Suisse — 2024</span></div>
         </div>
-      </div>
-      <div class="cert-card">
-        <div class="cert-year">2025</div>
-        <div class="cert-info">
-          <strong>Attestation Méthodologue en APC</strong>
-          <span>Approche Par Compétences en formation professionnelle</span>
+        <div class="cert-card">
+          <div class="medal">🏅</div>
+          <div class="cert-text">Méthodologue APC <span>FPT Sénégal — 2025</span></div>
         </div>
-      </div>
-      <div class="cert-card">
-        <div class="cert-year">2025</div>
-        <div class="cert-info">
-          <strong>Attestation Méthodologue – Formation Duale</strong>
-          <span>Ingénierie de la formation duale en FPT</span>
+        <div class="cert-card">
+          <div class="medal">🏅</div>
+          <div class="cert-text">Méthodologue Formation Duale <span>FPT Sénégal — 2025</span></div>
         </div>
-      </div>
-      <div class="cert-card">
-        <div class="cert-year">2024</div>
-        <div class="cert-info">
-          <strong>Doctorat en cours</strong>
-          <span>Sciences Économiques – FASEG, UCAD</span>
-        </div>
-      </div>
-      <div class="cert-card">
-        <div class="cert-year">2024</div>
-        <div class="cert-info">
-          <strong>Certificat Maître Formateur</strong>
-          <span>Formation de formateurs d'adultes – HEFP, Lausanne</span>
-        </div>
-      </div>
-      <div class="cert-card">
-        <div class="cert-year">2016</div>
-        <div class="cert-info">
-          <strong>CAESTP – Informatique de gestion</strong>
-          <span>ENSETP, UCAD</span>
-        </div>
-      </div>
-      <div class="cert-card">
-        <div class="cert-year">2014</div>
-        <div class="cert-info">
-          <strong>Master 2 – Économétrie bancaire &amp; finance quantitative</strong>
-          <span>FASEG, UCAD</span>
+        <div class="cert-card">
+          <div class="medal">🏅</div>
+          <div class="cert-text">CAESTP Informatique de gestion <span>ENSETP/UCAD — 2016</span></div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ─── EXPERIENCE ─── -->
-<section id="experience">
-  <div class="section-label reveal">Parcours professionnel</div>
-  <h2 class="section-title reveal">Une carrière <em>au service</em> de l'éducation</h2>
+<!-- ===== SECTION 3 : PARCOURS ===== -->
+<section id="parcours">
+  <div class="section-title fade-in">
+    <h2>Parcours</h2>
+    <p>Mon itinéraire professionnel et académique</p>
+  </div>
+
   <div class="timeline">
-    <div class="timeline-item reveal">
-      <div class="tl-period">Oct. 2025 – Présent</div>
-      <div class="tl-role">Élève Inspecteur de spécialité</div>
-      <div class="tl-org">Formation Professionnelle et Technique – Option Informatique</div>
-      <div class="tl-desc">Formation pour l'inspection pédagogique en FPT, option Informatique. Attesté méthodologue en <strong>APC</strong> (Approche Par Compétences) et en <strong>formation duale</strong> — ingénierie de curricula et accompagnement pédagogique des enseignants.</div>
+    <!-- Item 1 -->
+    <div class="timeline-item fade-in">
+      <div class="timeline-dot"></div>
+      <div class="timeline-card">
+        <div class="timeline-date">Oct. 2025 – présent</div>
+        <h3>Élève Inspecteur de spécialité — Informatique</h3>
+        <div class="org">Formation Professionnelle et Technique (FPT)</div>
+        <div class="timeline-tags">
+          <span class="tag">📌 Sénégal</span>
+          <span class="tag">🏷️ Formation initiale</span>
+        </div>
+        <p>Pilotage de dispositifs de formation, ingénierie curriculaire en APC, formation duale, évaluation de programmes et accompagnement pédagogique.</p>
+      </div>
     </div>
-    <div class="timeline-item reveal">
-      <div class="tl-period">2022 – Présent</div>
-      <div class="tl-role">Professeur d'informatique de gestion</div>
-      <div class="tl-org">Lycée Seydina Limamou Laye, Dakar</div>
-      <div class="tl-desc">Bureautique, algorithmique, analyse et conception d'un SI, Access. Encadrement de projets pédagogiques.</div>
+    <!-- Item 2 -->
+    <div class="timeline-item fade-in">
+      <div class="timeline-dot"></div>
+      <div class="timeline-card">
+        <div class="timeline-date">Jan. 2024 – présent</div>
+        <h3>Enseignant Associé</h3>
+        <div class="org">ENSETP – Université Cheikh Anta Diop (UCAD)</div>
+        <div class="timeline-tags">
+          <span class="tag">📌 Dakar</span>
+          <span class="tag">🏷️ Vacations / CDD</span>
+        </div>
+        <p>Modules : Bureautique, Outils numériques FP, Analyse & Conception SI, Bases de données, Messagerie, Analyse décisionnelle.</p>
+      </div>
     </div>
-    <div class="timeline-item reveal">
-      <div class="tl-period">2016 – 2024</div>
-      <div class="tl-role">Formateur Consultant</div>
-      <div class="tl-org">Centres de formation & Associations d'enseignants</div>
-      <div class="tl-desc">Conception et animation de modules : Word, Excel avancé, PowerPoint, Google Workspace, intégration de l'IA en formation.</div>
+    <!-- Item 3 -->
+    <div class="timeline-item fade-in">
+      <div class="timeline-dot"></div>
+      <div class="timeline-card">
+        <div class="timeline-date">Sep. 2022 – présent</div>
+        <h3>Professeur d'Informatique de Gestion</h3>
+        <div class="org">Lycée Seydina Limamou Laye</div>
+        <div class="timeline-tags">
+          <span class="tag">📌 Dakar</span>
+          <span class="tag">🏷️ Titulaire</span>
+        </div>
+        <p>Bureautique, algorithmique, analyse & conception d'un SI, Access, encadrement de projets pédagogiques.</p>
+      </div>
     </div>
-    <div class="timeline-item reveal">
-      <div class="tl-period">2019 – 2022</div>
-      <div class="tl-role">Professeur d'informatique de gestion</div>
-      <div class="tl-org">Lycée Technique Agricole E. Badiane, Bignona</div>
-      <div class="tl-desc">Enseignement de l'informatique de gestion en milieu technique agricole.</div>
+    <!-- Item 4 -->
+    <div class="timeline-item fade-in">
+      <div class="timeline-dot"></div>
+      <div class="timeline-card">
+        <div class="timeline-date">Jan. 2016 – Déc. 2024</div>
+        <h3>Formateur Consultant</h3>
+        <div class="org">Centres de formation & Associations d'enseignants</div>
+        <div class="timeline-tags">
+          <span class="tag">📌 Sénégal</span>
+          <span class="tag">🏷️ Consultance</span>
+        </div>
+        <p>Formation de 100+ enseignants au numérique — Word, Excel avancé, PowerPoint, Google Workspace, intégration de l'IA. Rapports de synthèse, attestations de participation.</p>
+      </div>
     </div>
-    <div class="timeline-item reveal">
-      <div class="tl-period">2016 – 2019</div>
-      <div class="tl-role">Professeur d'informatique de gestion</div>
-      <div class="tl-org">Centre de Formation Professionnelle de Kanel, Matam</div>
-      <div class="tl-desc">Formation professionnelle en informatique de gestion dans la région de Matam.</div>
+    <!-- Item 5 -->
+    <div class="timeline-item fade-in">
+      <div class="timeline-dot"></div>
+      <div class="timeline-card">
+        <div class="timeline-date">Sep. 2019 – Juil. 2022</div>
+        <h3>Professeur d'Informatique de Gestion</h3>
+        <div class="org">Lycée Technique Agricole Émile Badiane</div>
+        <div class="timeline-tags">
+          <span class="tag">📌 Bignona</span>
+          <span class="tag">🏷️ Titulaire</span>
+        </div>
+        <p>Enseignement de l'informatique de gestion en milieu technique agricole. Séquences pédagogiques et suivi des apprenants.</p>
+      </div>
+    </div>
+    <!-- Item 6 -->
+    <div class="timeline-item fade-in">
+      <div class="timeline-dot"></div>
+      <div class="timeline-card">
+        <div class="timeline-date">Sep. 2016 – Juil. 2019</div>
+        <h3>Professeur d'Informatique de Gestion</h3>
+        <div class="org">Centre de Formation Professionnelle de Kanel</div>
+        <div class="timeline-tags">
+          <span class="tag">📌 Matam</span>
+          <span class="tag">🏷️ Titulaire</span>
+        </div>
+        <p>Formation professionnelle, gestion des dossiers, statistiques et coordination administrative.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Education -->
+  <div class="education-section fade-in">
+    <h3 class="edu-title">🎓 Formations Académiques</h3>
+    <div class="edu-grid">
+      <div class="edu-item">
+        <div class="edu-year">En cours</div>
+        <div class="edu-desc">Doctorat Sciences Économiques <small>— FASEG, UCAD, Dakar</small></div>
+      </div>
+      <div class="edu-item">
+        <div class="edu-year">2025</div>
+        <div class="edu-desc">Attestation Méthodologue APC & Formation Duale <small>— FPT Sénégal</small></div>
+      </div>
+      <div class="edu-item">
+        <div class="edu-year">2024</div>
+        <div class="edu-desc">Certificat Maître Formateur <small>— HEFP, Lausanne, Suisse</small></div>
+      </div>
+      <div class="edu-item">
+        <div class="edu-year">2016</div>
+        <div class="edu-desc">CAESTP Informatique de gestion <small>— ENSETP/UCAD, Dakar</small></div>
+      </div>
+      <div class="edu-item">
+        <div class="edu-year">2014</div>
+        <div class="edu-desc">Master 2 Économétrie bancaire & Finance quantitative <small>— FASEG/UCAD</small></div>
+      </div>
+      <div class="edu-item">
+        <div class="edu-year">2010–2013</div>
+        <div class="edu-desc">Licence Sciences Économiques <small>— FASEG/UCAD, Dakar</small></div>
+      </div>
+      <div class="edu-item">
+        <div class="edu-year">2009</div>
+        <div class="edu-desc">Baccalauréat Série S2 <small>— Lycée Abdoulaye Sadji, Rufisque</small></div>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- ─── SKILLS ─── -->
+<!-- ===== SECTION 4 : COMPÉTENCES ===== -->
 <section id="competences">
-  <div class="section-label reveal">Expertise</div>
-  <h2 class="section-title reveal">Mes <em>compétences</em> clés</h2>
+  <div class="section-title fade-in">
+    <h2>Compétences</h2>
+    <p>Expertise technique et pédagogique</p>
+  </div>
   <div class="skills-grid">
-    <div class="skill-card reveal">
-      <div class="skill-card-title">🎓 Pédagogie & Formation</div>
-      <div class="skill-tags">
-        <span class="tag">Ingénierie pédagogique (APC)</span>
-        <span class="tag">Méthodologie APC (attesté)</span>
-        <span class="tag">Formation duale (attesté)</span>
-        <span class="tag">Andragogie</span>
-        <span class="tag">Animation de groupes</span>
-        <span class="tag">Évaluation formative</span>
-        <span class="tag">Évaluation sommative</span>
-        <span class="tag">Conception de séquences</span>
-        <span class="tag">Inspection pédagogique FPT</span>
-        <span class="tag">IA éducative</span>
-      </div>
+    <!-- Pédagogie -->
+    <div class="skill-category fade-in">
+      <h3>🎓 Pédagogie & Formation</h3>
+      <div class="skill-item"><div class="skill-header"><span class="skill-name">Ingénierie pédagogique APC</span><span class="skill-pct">95%</span></div><div class="skill-bar"><div class="skill-fill" data-width="95"></div></div></div>
+      <div class="skill-item"><div class="skill-header"><span class="skill-name">Formation duale</span><span class="skill-pct">90%</span></div><div class="skill-bar"><div class="skill-fill" data-width="90"></div></div></div>
+      <div class="skill-item"><div class="skill-header"><span class="skill-name">Andragogie</span><span class="skill-pct">90%</span></div><div class="skill-bar"><div class="skill-fill" data-width="90"></div></div></div>
+      <div class="skill-item"><div class="skill-header"><span class="skill-name">Conception de curricula</span><span class="skill-pct">95%</span></div><div class="skill-bar"><div class="skill-fill" data-width="95"></div></div></div>
+      <div class="skill-item"><div class="skill-header"><span class="skill-name">Évaluation formative/sommative</span><span class="skill-pct">90%</span></div><div class="skill-bar"><div class="skill-fill" data-width="90"></div></div></div>
+      <div class="skill-item"><div class="skill-header"><span class="skill-name">Formation en ligne / LMS</span><span class="skill-pct">80%</span></div><div class="skill-bar"><div class="skill-fill" data-width="80"></div></div></div>
     </div>
-    <div class="skill-card reveal">
-      <div class="skill-card-title">💻 Bureautique & Outils</div>
-      <div class="skill-tags">
-        <span class="tag">Word</span>
-        <span class="tag">Excel (avancé)</span>
-        <span class="tag">PowerPoint</span>
-        <span class="tag">Access</span>
-        <span class="tag">Google Workspace</span>
-        <span class="tag">Canva</span>
-        <span class="tag">Genially</span>
-        <span class="tag">LMS</span>
-      </div>
+    <!-- Informatique -->
+    <div class="skill-category fade-in">
+      <h3>💻 Informatique & Bureautique</h3>
+      <div class="skill-item"><div class="skill-header"><span class="skill-name">Word / PowerPoint</span><span class="skill-pct">98%</span></div><div class="skill-bar"><div class="skill-fill" data-width="98"></div></div></div>
+      <div class="skill-item"><div class="skill-header"><span class="skill-name">Excel avancé</span><span class="skill-pct">95%</span></div><div class="skill-bar"><div class="skill-fill" data-width="95"></div></div></div>
+      <div class="skill-item"><div class="skill-header"><span class="skill-name">Access / SQL</span><span class="skill-pct">85%</span></div><div class="skill-bar"><div class="skill-fill" data-width="85"></div></div></div>
+      <div class="skill-item"><div class="skill-header"><span class="skill-name">Google Workspace</span><span class="skill-pct">90%</span></div><div class="skill-bar"><div class="skill-fill" data-width="90"></div></div></div>
+      <div class="skill-item"><div class="skill-header"><span class="skill-name">Canva / Genially</span><span class="skill-pct">85%</span></div><div class="skill-bar"><div class="skill-fill" data-width="85"></div></div></div>
     </div>
-    <div class="skill-card reveal">
-      <div class="skill-card-title">📊 Analyse & Données</div>
-      <div class="skill-tags">
-        <span class="tag">Python (pandas)</span>
-        <span class="tag">R</span>
-        <span class="tag">SQL</span>
-        <span class="tag">Analyse décisionnelle</span>
-        <span class="tag">Modélisation MCD/MLD</span>
-        <span class="tag">Économétrie</span>
-      </div>
+    <!-- Analyse -->
+    <div class="skill-category fade-in">
+      <h3>📊 Analyse de données</h3>
+      <div class="skill-item"><div class="skill-header"><span class="skill-name">Python (pandas)</span><span class="skill-pct">75%</span></div><div class="skill-bar"><div class="skill-fill" data-width="75"></div></div></div>
+      <div class="skill-item"><div class="skill-header"><span class="skill-name">R (statistiques)</span><span class="skill-pct">75%</span></div><div class="skill-bar"><div class="skill-fill" data-width="75"></div></div></div>
+      <div class="skill-item"><div class="skill-header"><span class="skill-name">Analyse décisionnelle</span><span class="skill-pct">85%</span></div><div class="skill-bar"><div class="skill-fill" data-width="85"></div></div></div>
+      <div class="skill-item"><div class="skill-header"><span class="skill-name">Modélisation MCD/MLD</span><span class="skill-pct">88%</span></div><div class="skill-bar"><div class="skill-fill" data-width="88"></div></div></div>
     </div>
-    <div class="skill-card reveal">
-      <div class="skill-card-title">🔧 Systèmes d'information</div>
-      <div class="skill-tags">
-        <span class="tag">Conception de SI</span>
-        <span class="tag">Bases de données relationnelles</span>
-        <span class="tag">Algorithmique</span>
-        <span class="tag">Automatisation pédagogique</span>
-      </div>
+    <!-- Langues -->
+    <div class="skill-category fade-in">
+      <h3>🌐 Langues</h3>
+      <div class="skill-item"><div class="skill-header"><span class="skill-name">Français</span><span class="skill-pct">95%</span></div><div class="skill-bar"><div class="skill-fill" data-width="95"></div></div></div>
+      <div class="skill-item"><div class="skill-header"><span class="skill-name">Wolof</span><span class="skill-pct">100%</span></div><div class="skill-bar"><div class="skill-fill" data-width="100"></div></div></div>
+      <div class="skill-item"><div class="skill-header"><span class="skill-name">Anglais</span><span class="skill-pct">55%</span></div><div class="skill-bar"><div class="skill-fill" data-width="55"></div></div></div>
     </div>
   </div>
 </section>
 
-<!-- ─── PROJECTS ─── -->
+<!-- ===== SECTION 5 : FORMATIONS DISPENSÉES ===== -->
+<section id="formations">
+  <div class="section-title fade-in">
+    <h2>Formations Dispensées</h2>
+    <p>Modules et thématiques animés auprès des apprenants</p>
+  </div>
+  <div class="formations-grid">
+    <div class="formation-card fade-in">
+      <div class="formation-icon">📄</div>
+      <h3>Bureautique avancée</h3>
+      <p>Word, Excel avancé, PowerPoint — traitement de texte professionnel, tableaux croisés dynamiques, présentations impactantes.</p>
+    </div>
+    <div class="formation-card fade-in">
+      <div class="formation-icon">🗄️</div>
+      <h3>Bases de données & SI</h3>
+      <p>Analyse et conception de systèmes d'information, modélisation MCD/MLD, Access, SQL — pour la gestion et l'exploitation des données.</p>
+    </div>
+    <div class="formation-card fade-in">
+      <div class="formation-icon">🤖</div>
+      <h3>Intégration de l'IA en formation</h3>
+      <p>Usage pédagogique de l'Intelligence Artificielle : outils IA, prompting, automatisation, création de contenus avec l'IA.</p>
+    </div>
+    <div class="formation-card fade-in">
+      <div class="formation-icon">🌐</div>
+      <h3>Environnement numérique de travail</h3>
+      <p>Google Workspace, messagerie professionnelle, e-réputation, collaboration en ligne et outils cloud.</p>
+    </div>
+    <div class="formation-card fade-in">
+      <div class="formation-icon">📈</div>
+      <h3>Analyse décisionnelle</h3>
+      <p>Tableaux de bord, indicateurs de performance, Python (pandas), R — pour l'aide à la décision et le pilotage de la formation.</p>
+    </div>
+    <div class="formation-card fade-in">
+      <div class="formation-icon">🎯</div>
+      <h3>Ingénierie pédagogique APC</h3>
+      <p>Conception de référentiels de formation, élaboration de séquences pédagogiques en Approche Par Compétences.</p>
+    </div>
+    <div class="formation-card fade-in">
+      <div class="formation-icon">🔗</div>
+      <h3>Formation duale</h3>
+      <p>Alternance école-entreprise, suivi des apprenants en milieu professionnel, évaluation des compétences en situation de travail.</p>
+    </div>
+    <div class="formation-card fade-in">
+      <div class="formation-icon">💡</div>
+      <h3>Formation de formateurs</h3>
+      <p>Andragogie, animation de groupes d'adultes, conception de modules, évaluation des pratiques pédagogiques.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== GALERIE PHOTO ===== -->
+<section id="galerie" style="background:var(--blue-marine);padding:80px 40px;">
+  <div class="section-title fade-in">
+    <h2>En action</h2>
+    <p>Quelques instants de mes formations et ateliers</p>
+  </div>
+  <div class="fade-in" style="max-width:1100px;margin:0 auto;">
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;">
+      <div style="border-radius:14px;overflow:hidden;height:210px;"><img src="images/PHOTO-2022-09-21-11-54-56.jpg" alt="Session formation" style="width:100%;height:100%;object-fit:cover;transition:transform 0.4s;border-radius:14px;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'" /></div>
+      <div style="border-radius:14px;overflow:hidden;height:210px;"><img src="images/PHOTO-2022-09-21-11-54-56 (1).jpg" alt="Apprenants en formation" style="width:100%;height:100%;object-fit:cover;transition:transform 0.4s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'" /></div>
+      <div style="border-radius:14px;overflow:hidden;height:210px;"><img src="images/PHOTO-2021-08-27-22-36-04 (1).jpg" alt="Remise d'attestations" style="width:100%;height:100%;object-fit:cover;transition:transform 0.4s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'" /></div>
+      <div style="border-radius:14px;overflow:hidden;height:210px;"><img src="images/PHOTO-2024-09-09-15-02-19.jpg" alt="Atelier numérique" style="width:100%;height:100%;object-fit:cover;transition:transform 0.4s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'" /></div>
+      <div style="border-radius:14px;overflow:hidden;height:210px;"><img src="images/Certificationavec la HEFP.JPG" alt="Avec l'équipe HEFP" style="width:100%;height:100%;object-fit:cover;transition:transform 0.4s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'" /></div>
+      <div style="border-radius:14px;overflow:hidden;height:210px;"><img src="images/PHOTO-2024-08-27-11-46-04.jpg" alt="Formation APC" style="width:100%;height:100%;object-fit:cover;transition:transform 0.4s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'" /></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 6 : PROJETS ===== -->
 <section id="projets">
-  <div class="section-label reveal">Réalisations</div>
-  <h2 class="section-title reveal">Projets &amp; <em>contributions</em></h2>
+  <div class="section-title fade-in">
+    <h2>Projets & Réalisations</h2>
+    <p>Initiatives menées sur le terrain et contributions académiques</p>
+  </div>
   <div class="projects-grid">
-    <div class="project-card reveal">
-      <div class="project-num">01</div>
-      <div class="project-title">Plateforme de gestion documentaire</div>
-      <div class="project-desc">Conception et développement d'une plateforme de gestion documentaire pour l'ENSETP, facilitant l'accès et l'organisation des ressources pédagogiques.</div>
+    <div class="project-card fade-in">
+      <div class="project-photo" style="padding:0;overflow:hidden;">
+        <img src="images/PHOTO-2024-08-27-11-46-04.jpg" alt="Formation APC — Atelier collaboratif" style="width:100%;height:100%;object-fit:cover;transition:transform 0.4s;" onmouseover="this.style.transform='scale(1.06)'" onmouseout="this.style.transform='scale(1)'" />
+      </div>
+      <div class="project-body">
+        <div class="project-number">01 / 04</div>
+        <h3>Plateforme de gestion documentaire — ENSETP</h3>
+        <p>Conception et déploiement d'un système numérique de gestion et d'archivage des ressources pédagogiques pour l'ENSETP. Facilite l'accès, le partage et la traçabilité des documents de formation.</p>
+      </div>
     </div>
-    <div class="project-card reveal">
-      <div class="project-num">02</div>
-      <div class="project-title">Module IA en formation professionnelle</div>
-      <div class="project-desc">Animation du module « Intégration de l'IA en formation professionnelle » (2024) — formation de formateurs aux outils et méthodes d'IA éducative.</div>
+    <div class="project-card fade-in">
+      <div class="project-photo" style="padding:0;overflow:hidden;">
+        <img src="images/module-ia.jpeg" alt="Module IA — Session de formation" style="width:100%;height:100%;object-fit:cover;transition:transform 0.4s;" onmouseover="this.style.transform='scale(1.06)'" onmouseout="this.style.transform='scale(1)'" />
+      </div>
+      <div class="project-body">
+        <div class="project-number">02 / 04</div>
+        <h3>Module "Intégration de l'IA en Formation Professionnelle" (2024)</h3>
+        <p>Conception et animation d'un module de formation innovant destiné aux formateurs et enseignants sur l'usage pédagogique de l'Intelligence Artificielle dans les dispositifs de formation professionnelle.</p>
+      </div>
     </div>
-    <div class="project-card reveal">
-      <div class="project-num">03</div>
-      <div class="project-title">Formation au numérique – 100+ enseignants</div>
-      <div class="project-desc">Programme de formation intensive au numérique ayant touché plus de 100 enseignants, avec des modules pratiques sur les outils bureautiques et pédagogiques.</div>
+    <div class="project-card fade-in">
+      <div class="project-photo" style="padding:0;overflow:hidden;">
+        <img src="images/formation-enseignants.jpg" alt="100 enseignants formés au numérique" style="width:100%;height:100%;object-fit:cover;transition:transform 0.4s;" onmouseover="this.style.transform='scale(1.06)'" onmouseout="this.style.transform='scale(1)'" />
+      </div>
+      <div class="project-body">
+        <div class="project-number">03 / 04</div>
+        <h3>Programme "100 enseignants formés au numérique"</h3>
+        <p>Programme de renforcement des capacités numériques ayant touché plus de 100 enseignants sénégalais. Modules pratiques sur les outils bureautiques, pédagogiques et collaboratifs. Recueil des évaluations et rapports de synthèse.</p>
+      </div>
     </div>
-    <div class="project-card reveal">
-      <div class="project-num">04</div>
-      <div class="project-title">Mémoire M2 : Déterminants de la pauvreté</div>
-      <div class="project-desc">Recherche économétrique approfondie sur les déterminants de la pauvreté, mobilisant des méthodes quantitatives avancées dans le contexte sénégalais.</div>
+    <div class="project-card fade-in">
+      <div class="project-photo">
+        <div class="project-photo-inner">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#4A90D9" stroke-width="1.2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><path d="M8 7h8M8 11h6"/></svg>
+          <div class="project-photo-label">Mémoire de recherche — FASEG/UCAD, 2014</div>
+        </div>
+      </div>
+      <div class="project-body">
+        <div class="project-number">04 / 04</div>
+        <h3>Mémoire de Master 2 : Les déterminants de la pauvreté</h3>
+        <p>Recherche économétrique approfondie sur les facteurs explicatifs de la pauvreté au Sénégal. Mobilisation de méthodes quantitatives avancées (régressions, données panel) — FASEG/UCAD, 2014.</p>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- ─── LANGUAGES ─── -->
-<section id="langues" style="text-align:center;">
-  <div class="section-label reveal">Langues</div>
-  <h2 class="section-title reveal" style="margin: 0 auto 3rem;">Communication <em>multilingue</em></h2>
-  <div class="lang-grid" style="justify-content:center;">
-    <div class="lang-item reveal">
-      <div class="lang-circle" style="--pct:95%;">
-        <div class="lang-inner">95%</div>
+<!-- ===== SECTION 7 : TEMOIGNAGES ===== -->
+<section id="temoignages">
+  <div class="section-title fade-in">
+    <h2>Ce que disent mes apprenants &amp; collègues</h2>
+    <p>Retours et témoignages</p>
+  </div>
+  <div class="testimonial-slider fade-in">
+    <div class="testimonial-track">
+      <div class="testimonial-cards" id="t-cards">
+        <!-- Card 1 -->
+        <div class="testimonial-card">
+          <div class="testimonial-avatar">A.D</div>
+          <p class="testimonial-text">"Un formateur d'exception, pédagogue et passionné. Sa maîtrise des outils numériques et sa capacité à les transmettre de façon claire et progressive ont transformé notre façon d'enseigner. Un vrai modèle pour nous tous."</p>
+          <div class="testimonial-name">Aminata Diallo</div>
+          <div class="testimonial-role">Enseignante, Lycée de Dakar</div>
+        </div>
+        <!-- Card 2 -->
+        <div class="testimonial-card">
+          <div class="testimonial-avatar">O.S</div>
+          <p class="testimonial-text">"M. Thioube a su adapter ses formations à nos besoins réels de terrain. Grâce à lui, j'ai pu intégrer des outils numériques dans mes cours et améliorer l'engagement de mes élèves de façon remarquable."</p>
+          <div class="testimonial-name">Ousmane Sarr</div>
+          <div class="testimonial-role">Formateur en FPT, Thiès</div>
+        </div>
+        <!-- Card 3 -->
+        <div class="testimonial-card">
+          <div class="testimonial-avatar">F.N</div>
+          <p class="testimonial-text">"Une approche rigoureuse, bienveillante et innovante. Le module sur l'intégration de l'IA en formation professionnelle a été une révélation. Je recommande vivement ses interventions à tout établissement souhaitant évoluer."</p>
+          <div class="testimonial-name">Fatou Ndiaye</div>
+          <div class="testimonial-role">Directrice de Centre de Formation, Ziguinchor</div>
+        </div>
       </div>
-      <div class="lang-name">Français</div>
     </div>
-    <div class="lang-item reveal">
-      <div class="lang-circle" style="--pct:55%;">
-        <div class="lang-inner">55%</div>
+    <div class="testimonial-nav">
+      <button class="t-btn" onclick="tSlide(-1)">&#8592;</button>
+      <div class="t-dots" id="t-dots">
+        <div class="t-dot active" onclick="tGoTo(0)"></div>
+        <div class="t-dot" onclick="tGoTo(1)"></div>
+        <div class="t-dot" onclick="tGoTo(2)"></div>
       </div>
-      <div class="lang-name">Anglais</div>
-    </div>
-    <div class="lang-item reveal">
-      <div class="lang-circle" style="--pct:100%;">
-        <div class="lang-inner">✓</div>
-      </div>
-      <div class="lang-name">Wolof</div>
+      <button class="t-btn" onclick="tSlide(1)">&#8594;</button>
     </div>
   </div>
 </section>
 
-<!-- ─── CONTACT ─── -->
+<!-- ===== SECTION 8 : CONTACT ===== -->
 <section id="contact">
-  <div class="section-label reveal">Disponible pour</div>
-  <h2 class="section-title reveal">Travaillons <em>ensemble</em></h2>
-  <div class="contact-grid reveal">
-    <a href="/cdn-cgi/l/email-protection#8ae2ebeee0e3e7ebe7ebeee5ffb8b8caede7ebe3e6a4e9e5e7" class="contact-pill">
-      ✉️ <span class="__cf_email__" data-cfemail="adc5ccc9c7c4c0ccc0ccc9c2d89f9fedcac0ccc4c183cec2c0">[email&#160;protected]</span>
+  <div class="section-title fade-in">
+    <h2>Contact</h2>
+    <p>Travaillons ensemble</p>
+  </div>
+  <div class="contact-grid">
+    <div class="contact-info fade-in">
+      <h3>Restons en contact</h3>
+      <p>Disponible pour des missions de formation, des consultances pédagogiques ou des collaborations institutionnelles. N'hésitez pas à me contacter.</p>
+      <ul class="contact-list">
+        <li><span class="c-icon">📍</span> Dakar, Sénégal</li>
+        <li><span class="c-icon">📧</span> <a href="mailto:hadjimamadou22@gmail.com">hadjimamadou22@gmail.com</a></li>
+        <li><span class="c-icon">📞</span> <a href="tel:+221777240927">+221 77 724 09 27</a></li>
+        <li><span class="c-icon">🔗</span> <a href="#" target="_blank">LinkedIn — lien à compléter</a></li>
+        <li><span class="c-icon">💻</span> <a href="#" target="_blank">GitHub — lien à compléter</a></li>
+        <li><span class="c-icon">⏰</span> Lundi – Vendredi, 8h – 18h</li>
+      </ul>
+    </div>
+    <div class="fade-in">
+      <form class="contact-form" onsubmit="handleForm(event)">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Nom complet</label>
+            <input type="text" placeholder="Votre nom" required />
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" placeholder="votre@email.com" required />
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Sujet</label>
+          <input type="text" placeholder="Objet de votre message" required />
+        </div>
+        <div class="form-group">
+          <label>Message</label>
+          <textarea placeholder="Décrivez votre projet ou votre demande..." required></textarea>
+        </div>
+        <button type="submit" class="btn-primary" style="align-self:flex-start">Envoyer le message</button>
+        <div id="form-msg" style="display:none;color:var(--blue-sky);margin-top:8px;font-size:0.9rem;">✅ Message envoyé ! Je vous recontacterai bientôt.</div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION BLOG APERÇU ===== -->
+<section style="background:var(--blue-night);padding:100px 40px;">
+  <div class="section-title fade-in">
+    <h2>Blog & Articles</h2>
+    <p>Réflexions et ressources sur l'informatique, la bureautique et la formation</p>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;max-width:1100px;margin:0 auto 48px;" class="fade-in">
+    <!-- Article 1 -->
+    <a href="blog.html" style="background:var(--blue-marine);border-radius:18px;overflow:hidden;border:1px solid rgba(74,144,217,0.12);transition:all 0.3s;display:block;"
+       onmouseover="this.style.transform='translateY(-5px)';this.style.borderColor='var(--blue-electric)';this.style.boxShadow='0 0 18px rgba(74,144,217,0.45)'"
+       onmouseout="this.style.transform='';this.style.borderColor='rgba(74,144,217,0.12)';this.style.boxShadow=''">
+      <div style="height:120px;background:#1a3a5c;display:flex;align-items:center;justify-content:center;font-size:2.4rem;">📊</div>
+      <div style="padding:20px 22px;">
+        <span style="font-size:0.7rem;background:#4A90D9;color:#fff;padding:3px 10px;border-radius:50px;font-family:'DM Mono',monospace;">Bureautique</span>
+        <h3 style="font-family:'Playfair Display',serif;font-size:1rem;color:var(--white-off);margin:12px 0 8px;line-height:1.5;">Les 10 fonctions Excel indispensables pour les enseignants</h3>
+        <p style="font-size:0.83rem;color:var(--gray-blue);">Maîtrisez ces formules clés pour gérer vos notes et tableaux de bord pédagogiques.</p>
+      </div>
     </a>
-    <a href="tel:+221777240927" class="contact-pill">
-      📞 +221 77 724 09 27
+    <!-- Article 2 -->
+    <a href="blog.html" style="background:var(--blue-marine);border-radius:18px;overflow:hidden;border:1px solid rgba(74,144,217,0.12);transition:all 0.3s;display:block;"
+       onmouseover="this.style.transform='translateY(-5px)';this.style.borderColor='var(--blue-electric)';this.style.boxShadow='0 0 18px rgba(74,144,217,0.45)'"
+       onmouseout="this.style.transform='';this.style.borderColor='rgba(74,144,217,0.12)';this.style.boxShadow=''">
+      <div style="height:120px;background:#0a2a1a;display:flex;align-items:center;justify-content:center;font-size:2.4rem;">🤖</div>
+      <div style="padding:20px 22px;">
+        <span style="font-size:0.7rem;background:#2ecc71;color:#fff;padding:3px 10px;border-radius:50px;font-family:'DM Mono',monospace;">IA & Numérique</span>
+        <h3 style="font-family:'Playfair Display',serif;font-size:1rem;color:var(--white-off);margin:12px 0 8px;line-height:1.5;">Intégrer l'IA dans ses cours : guide pour formateurs</h3>
+        <p style="font-size:0.83rem;color:var(--gray-blue);">ChatGPT, Copilot, Canva AI — comment ces outils transforment la pédagogie.</p>
+      </div>
     </a>
-    <a href="https://www.linkedin.com/in/" target="_blank" class="contact-pill">
-      🔗 LinkedIn
+    <!-- Article 3 -->
+    <a href="blog.html" style="background:var(--blue-marine);border-radius:18px;overflow:hidden;border:1px solid rgba(74,144,217,0.12);transition:all 0.3s;display:block;"
+       onmouseover="this.style.transform='translateY(-5px)';this.style.borderColor='var(--blue-electric)';this.style.boxShadow='0 0 18px rgba(74,144,217,0.45)'"
+       onmouseout="this.style.transform='';this.style.borderColor='rgba(74,144,217,0.12)';this.style.boxShadow=''">
+      <div style="height:120px;background:#2a1a3c;display:flex;align-items:center;justify-content:center;font-size:2.4rem;">🎓</div>
+      <div style="padding:20px 22px;">
+        <span style="font-size:0.7rem;background:#9b59b6;color:#fff;padding:3px 10px;border-radius:50px;font-family:'DM Mono',monospace;">Pédagogie</span>
+        <h3 style="font-family:'Playfair Display',serif;font-size:1rem;color:var(--white-off);margin:12px 0 8px;line-height:1.5;">L'Approche Par Compétences (APC) : principes et mise en œuvre</h3>
+        <p style="font-size:0.83rem;color:var(--gray-blue);">Comprendre l'APC et concevoir des référentiels de formation efficaces.</p>
+      </div>
     </a>
-    <a href="https://github.com/" target="_blank" class="contact-pill">
-      💻 GitHub
+  </div>
+  <div style="text-align:center;" class="fade-in">
+    <a href="blog.html" class="btn-primary" style="display:inline-block;padding:14px 38px;border-radius:50px;background:linear-gradient(135deg,#4A90D9,#2a6fbd);color:#fff;font-weight:600;font-size:0.95rem;box-shadow:0 0 18px rgba(74,144,217,0.55);transition:transform 0.3s"
+       onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform=''">
+      Voir tous les articles →
     </a>
   </div>
 </section>
 
+<!-- ===== FOOTER ===== -->
 <footer>
-  © 2025 El Hadji Mamadou Thioube · Dakar, Sénégal · Conçu avec ❤️
+  <div class="footer-name">El Hadji Mamadou Thioube</div>
+  <div class="footer-title">Professeur | Formateur | Élève Inspecteur FPT</div>
+  <div class="footer-links">
+    <a href="#" target="_blank">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+      LinkedIn
+    </a>
+    <a href="#" target="_blank">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+      GitHub
+    </a>
+    <a href="mailto:hadjimamadou22@gmail.com">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 7L2 7"/></svg>
+      Email
+    </a>
+  </div>
+  <div class="footer-copy">© 2025 El Hadji Mamadou Thioube — Dakar, Sénégal. Tous droits réservés.</div>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-  // Progress bar
-  window.addEventListener('scroll', () => {
-    const doc = document.documentElement;
-    const pct = (doc.scrollTop / (doc.scrollHeight - doc.clientHeight)) * 100;
-    document.getElementById('progress').style.width = pct + '%';
-  });
+<!-- Scroll to top -->
+<button id="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Retour en haut">↑</button>
 
-  // Reveal on scroll
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add('visible');
-        // Stagger children
-        const children = e.target.querySelectorAll('.reveal');
-        children.forEach((c, i) => {
-          setTimeout(() => c.classList.add('visible'), i * 120);
-        });
-      }
+<!-- ===== JAVASCRIPT ===== -->
+<script>
+// ─── PARTICLES / HERO CANVAS ────────────────────────────────────────────────
+(function() {
+  const canvas = document.getElementById('hero-canvas');
+  const ctx = canvas.getContext('2d');
+  let W, H, particles = [];
+
+  function resize() {
+    W = canvas.width = canvas.offsetWidth;
+    H = canvas.height = canvas.offsetHeight;
+  }
+  window.addEventListener('resize', () => { resize(); init(); });
+  resize();
+
+  function rand(a, b) { return Math.random() * (b - a) + a; }
+
+  function init() {
+    particles = [];
+    const count = Math.floor((W * H) / 8000);
+    for (let i = 0; i < count; i++) {
+      particles.push({
+        x: rand(0, W), y: rand(0, H),
+        r: rand(0.6, 2.2),
+        vx: rand(-0.3, 0.3), vy: rand(-0.25, 0.25),
+        alpha: rand(0.2, 0.9),
+        da: rand(0.003, 0.007) * (Math.random() > 0.5 ? 1 : -1)
+      });
+    }
+  }
+  init();
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    // Gradient background
+    const grd = ctx.createLinearGradient(0, 0, W, H);
+    grd.addColorStop(0, '#0D1B2A');
+    grd.addColorStop(1, '#060E18');
+    ctx.fillStyle = grd;
+    ctx.fillRect(0, 0, W, H);
+
+    particles.forEach(p => {
+      p.x += p.vx; p.y += p.vy;
+      p.alpha += p.da;
+      if (p.alpha > 0.95 || p.alpha < 0.15) p.da *= -1;
+      if (p.x < 0) p.x = W; if (p.x > W) p.x = 0;
+      if (p.y < 0) p.y = H; if (p.y > H) p.y = 0;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(74,144,217,${p.alpha})`;
+      ctx.fill();
     });
-  }, { threshold: 0.12 });
-  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-  // Smooth nav active state
-  const sections = document.querySelectorAll('section[id]');
-  const navLin
+    // Draw connecting lines
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 100) {
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.strokeStyle = `rgba(74,144,217,${0.12 * (1 - dist / 100)})`;
+          ctx.lineWidth = 0.5;
+          ctx.stroke();
+        }
+      }
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// ─── TYPEWRITER ──────────────────────────────────────────────────────────────
+(function() {
+  const texts = [
+    'Professeur d\'Informatique de Gestion',
+    'Formateur Certifié HEFP Lausanne',
+    'Élève Inspecteur FPT — Option Informatique',
+    'Méthodologue APC & Formation Duale'
+  ];
+  const el = document.getElementById('typewriter');
+  let ti = 0, ci = 0, del = false, pause = 0;
+
+  function tick() {
+    if (pause > 0) { pause--; setTimeout(tick, 50); return; }
+    const t = texts[ti];
+    if (!del) {
+      ci++;
+      el.textContent = t.slice(0, ci);
+      if (ci === t.length) { del = true; pause = 40; }
+      setTimeout(tick, 60);
+    } else {
+      ci--;
+      el.textContent = t.slice(0, ci);
+      if (ci === 0) { del = false; ti = (ti + 1) % texts.length; pause = 8; }
+      setTimeout(tick, 28);
+    }
+  }
+  tick();
+})();
+
+// ─── NAVBAR SCROLL ───────────────────────────────────────────────────────────
+const navbar = document.getElementById('navbar');
+const scrollTopBtn = document.getElementById('scroll-top');
+const progressBar = document.getElementById('progress-bar');
+
+window.addEventListener('scroll', () => {
+  const sy = window.scrollY;
+  navbar.classList.toggle('scrolled', sy > 60);
+  scrollTopBtn.classList.toggle('visible', sy > 400);
+
+  // Progress bar
+  const total = document.documentElement.scrollHeight - window.innerHeight;
+  progressBar.style.width = (sy / total * 100) + '%';
+});
+
+// ─── MOBILE MENU ─────────────────────────────────────────────────────────────
+function toggleMenu() {
+  document.getElementById('hamburger').classList.toggle('open');
+  document.getElementById('mobile-menu').classList.toggle('open');
+}
+function closeMenu() {
+  document.getElementById('hamburger').classList.remove('open');
+  document.getElementById('mobile-menu').classList.remove('open');
+}
+
+// ─── INTERSECTION OBSERVER: fade-in + counters + skill bars ──────────────────
+const countersTriggered = new Set();
+const barsTriggered = new Set();
+
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (!entry.isIntersecting) return;
+    const el = entry.target;
+
+    // Fade in
+    el.classList.add('visible');
+
+    // Counters inside hero
+    el.querySelectorAll('.stat-number[data-target]').forEach(c => {
+      if (countersTriggered.has(c)) return;
+      countersTriggered.add(c);
+      animateCounter(c);
+    });
+
+    // Skill bars
+    el.querySelectorAll('.skill-fill[data-width]').forEach(b => {
+      if (barsTriggered.has(b)) return;
+      barsTriggered.add(b);
+      setTimeout(() => { b.style.width = b.dataset.width + '%'; }, 200);
+    });
+  });
+}, { threshold: 0.15 });
+
+document.querySelectorAll('.fade-in').forEach(el => io.observe(el));
+
+function animateCounter(el) {
+  const target = +el.dataset.target;
+  const suffix = el.dataset.suffix || '';
+  const dur = 1800;
+  const start = performance.now();
+  function step(now) {
+    const t = Math.min((now - start) / dur, 1);
+    const ease = 1 - Math.pow(1 - t, 3);
+    el.textContent = Math.round(ease * target) + suffix;
+    if (t < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
+// Also trigger counters on scroll for hero section
+const heroIO = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (!entry.isIntersecting) return;
+    entry.target.querySelectorAll('.stat-number[data-target]').forEach(c => {
+      if (countersTriggered.has(c)) return;
+      countersTriggered.add(c);
+      animateCounter(c);
+    });
+  });
+}, { threshold: 0.3 });
+const heroStats = document.querySelector('.hero-stats');
+if (heroStats) heroIO.observe(heroStats);
+
+// ─── TESTIMONIAL SLIDER ───────────────────────────────────────────────────────
+let tCurrent = 0;
+const tCount = 3;
+
+function tGoTo(idx) {
+  tCurrent = idx;
+  document.getElementById('t-cards').style.transform = `translateX(-${idx * 100}%)`;
+  document.querySelectorAll('.t-dot').forEach((d, i) => d.classList.toggle('active', i === idx));
+}
+function tSlide(dir) {
+  tGoTo((tCurrent + dir + tCount) % tCount);
+}
+
+// Auto-slide every 5s
+setInterval(() => tSlide(1), 5000);
+
+// ─── FORM ────────────────────────────────────────────────────────────────────
+function handleForm(e) {
+  e.preventDefault();
+  const msg = document.getElementById('form-msg');
+  msg.style.display = 'block';
+  e.target.reset();
+  setTimeout(() => { msg.style.display = 'none'; }, 5000);
+}
+</script>
+</body>
+</html>
